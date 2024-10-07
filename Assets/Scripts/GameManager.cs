@@ -59,6 +59,7 @@ public class GameManager : MonoBehaviour
             scoreManager.OnScoreChanged -= UpdateScoreText;
             scoreManager.OnHighscoreUpdated -= UpdateHighscoreText;
         }
+        BrickPrefab.onDestroyed -= AddPoint;
     }
 
     void Update()
@@ -98,7 +99,7 @@ public class GameManager : MonoBehaviour
                 Vector3 position = new Vector3(-1.5f + step * x, 2.5f + i * 0.3f, 0);
                 var brick = Instantiate(BrickPrefab, position, Quaternion.identity);
                 brick.PointValue = pointCountArray[i];
-                brick.onDestroyed.AddListener(AddPoint);
+                brick.onDestroyed += AddPoint;
                 m_TotalBrick++;
             }
         }

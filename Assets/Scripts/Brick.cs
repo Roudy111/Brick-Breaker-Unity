@@ -3,7 +3,8 @@ using UnityEngine.Events;
 
 public class Brick : MonoBehaviour
 {
-    public UnityEvent<int> onDestroyed;
+    public event Action<int> onDestroyed;
+    
     public int PointValue;
     [SerializeField] private float explosionForce = 500f;
     [SerializeField] private float explosionRadius = 1.5f;
@@ -69,6 +70,10 @@ public class Brick : MonoBehaviour
             isExploded = true;
             Destroy(gameObject, 0.1f);
         }
+        onDestroyed?.Invoke(PointValue);
+        
+        //slight delay to be sure the ball have time to bounce
+        Destroy(gameObject, 0.1f);
     }
 
     private void ApplyExplosionForce(bool isInitialExplosion)

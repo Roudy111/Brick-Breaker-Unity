@@ -7,7 +7,7 @@ public class DataManager : singleton<DataManager>
     public string currentPlayerId { get; set; }
     private List<HighscoreEntry> highscores = new List<HighscoreEntry>();
     private const int MaxHighscores = 3;
-    private const string SaveFileName = "highscores.json";
+    private const string SaveFileName = "highscoreList.json";
 
     [System.Serializable]
     public class HighscoreEntry
