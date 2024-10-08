@@ -34,16 +34,9 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        scoreManager = ScoreManager.Instance;
-        if (scoreManager == null)
-        {
-            Debug.LogError("ScoreManager not found!");
-            return;
-        }
+       
 
-        scoreManager.OnScoreChanged += UpdateScoreText;
-        scoreManager.OnHighscoreUpdated += UpdateHighscoreText;
-        scoreManager.ResetScore();
+       
 
         InitiateBlocks();
         UpdateHighscoreText();
@@ -51,7 +44,24 @@ public class GameManager : MonoBehaviour
         UpdateLevelText();
 
     }
+    private void OnEnable()
+    {
+        scoreManager = ScoreManager.Instance;
+        if (scoreManager != null)
+        {
+            scoreManager.OnScoreChanged += UpdateScoreText;
+            scoreManager.OnHighscoreUpdated += UpdateHighscoreText;
+            scoreManager.ResetScore();
 
+        }
+        else
+        {
+            Debug.LogError("ScoreManager not found!");
+            return;
+        }
+        
+
+    }
     void OnDestroy()
     {
         if (scoreManager != null)
