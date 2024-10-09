@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using System.Collections;
 using System;
 
-
 public enum GameStates
 {
     ballIdle,
@@ -15,6 +14,7 @@ public enum GameStates
 
 
 }
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
@@ -231,7 +231,7 @@ public class GameManager : MonoBehaviour
     void StartGame()
     {
         m_Started = true;
-        float randomDirection = Random.Range(-1.0f, 1.0f);
+        float randomDirection = UnityEngine.Random.Range(-1.0f, 1.0f);
         Vector3 forceDir = new Vector3(randomDirection, 1, 0);
         forceDir.Normalize();
 
@@ -264,4 +264,5 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(0);
     }
+
 }
