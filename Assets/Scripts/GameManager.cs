@@ -51,10 +51,7 @@ public class GameManager : MonoBehaviour
     public int LineCount = 6;
     [SerializeField]
     private Rigidbody Ball;
-    [SerializeField]
-    private Text ScoreText;
-    [SerializeField]
-    private Text HighscoreText;
+
     [SerializeField]
     private GameObject GameOverText;
     [SerializeField]
@@ -79,36 +76,15 @@ public class GameManager : MonoBehaviour
        UpdateGameState(GameStates.ballIdle);
 
         InitiateBlocks();
-        UpdateHighscoreText();
+        //UpdateHighscoreText();
         CurrentPlayerNameSet();
         UpdateLevelText();
 
     }
-    private void OnEnable()
-    {
-        scoreManager = ScoreManager.Instance;
-        if (scoreManager != null)
-        {
-            scoreManager.OnScoreChanged += UpdateScoreText;
-            scoreManager.OnHighscoreUpdated += UpdateHighscoreText;
-            scoreManager.ResetScore();
-
-        }
-        else
-        {
-            Debug.LogError("ScoreManager not found!");
-            return;
-        }
-        
-
-    }
+   
     void OnDestroy()
     {
-        if (scoreManager != null)
-        {
-            scoreManager.OnScoreChanged -= UpdateScoreText;
-            scoreManager.OnHighscoreUpdated -= UpdateHighscoreText;
-        }
+        
         BrickPrefab.onDestroyed -= AddPoint;
     }
 
@@ -214,19 +190,7 @@ public class GameManager : MonoBehaviour
 
 
 
-    void UpdateScoreText(int score)
-    {
-        ScoreText.text = $"Score : {score}";
-    }
-
-    void UpdateHighscoreText()
-    {
-        if (HighscoreText != null && DataManager.Instance != null)
-        {
-            string highscores = DataManager.Instance.GetFormattedHighscores();
-            HighscoreText.text = $"Highscores:\n{highscores}";
-        }
-    }
+    
 
     void StartGame()
     {
@@ -244,7 +208,7 @@ public class GameManager : MonoBehaviour
         m_GameOver = true;
         DeleteAllBricks();
         GameOverText.SetActive(true);
-        UpdateHighscoreText();
+        //UpdateHighscoreText();
         backToMenu.SetActive(true);
         
         

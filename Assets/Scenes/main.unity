@@ -544,8 +544,6 @@ MonoBehaviour:
   BrickPrefab: {fileID: 897975713663390409, guid: 63f25b9733d2bcd4fa2ff6de1264c739, type: 3}
   LineCount: 6
   Ball: {fileID: 177912862}
-  ScoreText: {fileID: 188020406}
-  HighscoreText: {fileID: 2078529056}
   GameOverText: {fileID: 474497238}
   CurrentplayerName: {fileID: 1358151633}
   LevelText: {fileID: 1252187110}
@@ -728,6 +726,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40930bf761f40b84da9181909ec31d82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ScoreText: {fileID: 188020406}
+  HighscoreText: {fileID: 2078529056}
 --- !u!4 &526696798
 Transform:
   m_ObjectHideFlags: 0

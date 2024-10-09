@@ -12,14 +12,14 @@ public class ScoreManager : singleton<ScoreManager>
             if (currentScore != value)
             {
                 currentScore = value;
-                OnScoreChanged?.Invoke(currentScore);
+                ScoreChanged?.Invoke(currentScore);
                 CheckAndUpdateHighscore();
             }
         }
     }
 
-    public event Action<int> OnScoreChanged;
-    public event Action OnHighscoreUpdated;
+    public event Action<int> ScoreChanged;
+    public event Action HighscoreUpdated;
 
     public override void Awake()
     {
@@ -39,7 +39,7 @@ public class ScoreManager : singleton<ScoreManager>
             bool wasUpdated = DataManager.Instance.AddOrUpdateHighscore(DataManager.Instance.currentPlayerId, CurrentScore);
             if (wasUpdated)
             {
-                OnHighscoreUpdated?.Invoke();
+                HighscoreUpdated?.Invoke();
             }
         }
     }
