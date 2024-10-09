@@ -4,6 +4,16 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
 
+
+public enum GameStates
+{
+    ballIdle,
+    ballMove,
+    levelChange,
+    gameOver,
+
+
+}
 public class GameManager : MonoBehaviour
 {
     [SerializeField]
