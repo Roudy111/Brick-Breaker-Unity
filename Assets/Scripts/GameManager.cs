@@ -16,6 +16,31 @@ public enum GameStates
 }
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
+    public GameStates state;
+
+    public void UpdateGameStates(GameStates newstate)
+    {
+        state = newstate;
+
+        switch (newstate)
+        {
+            case GameStates.ballIdle:
+                break;
+            case GameStates.ballMove:
+                break;
+            case GameStates.levelChange:
+                break;
+            case GameStates.gameOver:
+                break;
+            default:
+                break;
+        }
+    }
+
+
+
+
     [SerializeField]
     public Brick BrickPrefab;
     [SerializeField]
@@ -31,6 +56,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Text CurrentplayerName;
     [SerializeField] private Text LevelText;
+
     public int currentLevel { get; private set; } = 1; // the variable to track current Level -- always initialzed at 1 
     private bool isChangingLevel = false; // New flag to prevent multiple coroutines
 
