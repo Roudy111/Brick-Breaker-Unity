@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
+using System;
 
 
 public enum GameStates
@@ -18,8 +19,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public GameStates state;
+    public static event Action<GameStates> OnGameStateChanged;
 
-    public void UpdateGameStates(GameStates newstate)
+    public void UpdateGameState(GameStates newstate)
     {
         state = newstate;
 
@@ -36,6 +38,8 @@ public class GameManager : MonoBehaviour
             default:
                 break;
         }
+
+        OnGameStateChanged?.Invoke(newstate);
     }
 
 
@@ -72,7 +76,7 @@ public class GameManager : MonoBehaviour
     {
        
 
-       
+       UpdateGameState(GameStates.ballIdle);
 
         InitiateBlocks();
         UpdateHighscoreText();
