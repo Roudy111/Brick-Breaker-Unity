@@ -10,6 +10,8 @@ public class UIHandler : MonoBehaviour
     private Text ScoreText;
     [SerializeField]
     private Text HighscoreText;
+    [SerializeField]
+    private Text CurrentplayerName;
 
 
     private void OnEnable()
@@ -37,6 +39,18 @@ public class UIHandler : MonoBehaviour
             scoreManager.HighscoreUpdated -= OnUpdateHighscore;
         }
     }
+    void Start()
+    {
+        OnUpdateHighscore();
+        CurrentPlayerNameSet();
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
     void OnUpdateScore(int score)
     {
@@ -52,15 +66,12 @@ public class UIHandler : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        OnUpdateHighscore();
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    void CurrentPlayerNameSet()
     {
-        
+        if (CurrentplayerName != null && DataManager.Instance != null)
+        {
+            CurrentplayerName.text = $"Player Name: {DataManager.Instance.currentPlayerId}";
+        }
     }
 }

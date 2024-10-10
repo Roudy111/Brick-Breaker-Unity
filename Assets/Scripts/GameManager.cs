@@ -54,8 +54,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private GameObject GameOverText;
-    [SerializeField]
-    private Text CurrentplayerName;
+
     [SerializeField] private Text LevelText;
 
     public int currentLevel { get; private set; } = 1; // the variable to track current Level -- always initialzed at 1 
@@ -81,8 +80,8 @@ public class GameManager : MonoBehaviour
        UpdateGameState(GameStates.ballIdle);
 
         InitiateBlocks();
-        //UpdateHighscoreText();
-        CurrentPlayerNameSet();
+        
+        
         UpdateLevelText();
 
     }
@@ -221,13 +220,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    void CurrentPlayerNameSet()
-    {
-        if (CurrentplayerName != null && DataManager.Instance != null)
-        {
-            CurrentplayerName.text = $"Player Name: {DataManager.Instance.currentPlayerId}";
-        }
-    }
+    
 
     public void Back2Menu()
     {

@@ -545,7 +545,6 @@ MonoBehaviour:
   LineCount: 6
   Ball: {fileID: 177912862}
   GameOverText: {fileID: 474497238}
-  CurrentplayerName: {fileID: 1358151633}
   LevelText: {fileID: 1252187110}
   backToMenu: {fileID: 743160540}
 --- !u!1 &455529321
@@ -728,6 +727,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScoreText: {fileID: 188020406}
   HighscoreText: {fileID: 2078529056}
+  CurrentplayerName: {fileID: 1358151633}
 --- !u!4 &526696798
 Transform:
   m_ObjectHideFlags: 0
