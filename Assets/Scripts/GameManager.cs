@@ -71,7 +71,12 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-       
+        scoreManager = ScoreManager.Instance;
+        if (scoreManager == null)
+        {
+            Debug.LogError("ScoreManager not found!");
+            return;
+        }
 
        UpdateGameState(GameStates.ballIdle);
 
