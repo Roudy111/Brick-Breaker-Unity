@@ -17,8 +17,8 @@ public class UIHandler : MonoBehaviour
         scoreManager = ScoreManager.Instance;
         if (scoreManager != null)
         {
-            scoreManager.ScoreChanged += UpdateScoreText;
-            scoreManager.HighscoreUpdated += UpdateHighscoreText;
+            scoreManager.ScoreChanged += OnUpdateScore;
+            scoreManager.HighscoreUpdated += OnUpdateHighscore;
             scoreManager.ResetScore();
 
         }
@@ -33,17 +33,17 @@ public class UIHandler : MonoBehaviour
     {
         if (scoreManager != null)
         {
-            scoreManager.ScoreChanged -= UpdateScoreText;
-            scoreManager.HighscoreUpdated -= UpdateHighscoreText;
+            scoreManager.ScoreChanged -= OnUpdateScore;
+            scoreManager.HighscoreUpdated -= OnUpdateHighscore;
         }
     }
 
-    void UpdateScoreText(int score)
+    void OnUpdateScore(int score)
     {
         ScoreText.text = $"Score : {score}";
     }
 
-    void UpdateHighscoreText()
+    void OnUpdateHighscore()
     {
         if (HighscoreText != null && DataManager.Instance != null)
         {
@@ -54,7 +54,7 @@ public class UIHandler : MonoBehaviour
 
     void Start()
     {
-        UpdateHighscoreText();
+        OnUpdateHighscore();
         
     }
 

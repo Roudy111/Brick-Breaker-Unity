@@ -13,7 +13,7 @@ public class ScoreManager : singleton<ScoreManager>
             {
                 currentScore = value;
                 ScoreChanged?.Invoke(currentScore);
-                CheckAndUpdateHighscore();
+                CheckHighscoreUpdate();
             }
         }
     }
@@ -32,7 +32,7 @@ public class ScoreManager : singleton<ScoreManager>
         CurrentScore += points;
     }
 
-    private void CheckAndUpdateHighscore()
+    private void CheckHighscoreUpdate()
     {
         if (DataManager.Instance != null)
         {

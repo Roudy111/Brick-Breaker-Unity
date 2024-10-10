@@ -71,10 +71,7 @@ public class DataManager : singleton<DataManager>
         return updated;
     }
 
-    private void SortHighscores()
-    {
-        highscores.Sort((a, b) => b.score.CompareTo(a.score));
-    }
+   
 
     private void SaveHighscores()
     {
@@ -107,6 +104,10 @@ public class DataManager : singleton<DataManager>
             formattedHighscores += $"{i + 1}. {highscores[i].playerName}: {highscores[i].score}\n";
         }
         return formattedHighscores.TrimEnd('\n');
+    }
+    private void SortHighscores()
+    {
+        highscores.Sort((a, b) => b.score.CompareTo(a.score));
     }
 
     public void ResetHighscores()
