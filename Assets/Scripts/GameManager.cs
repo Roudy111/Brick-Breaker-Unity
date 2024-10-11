@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public GameStates state;
     public static event Action<GameStates> OnGameStateChanged;
 
+
     public void UpdateGameState(GameStates newstate)
     {
         state = newstate;
@@ -45,10 +46,7 @@ public class GameManager : MonoBehaviour
 
 
 
-    [SerializeField]
-    public Brick BrickPrefab;
-    [SerializeField]
-    public int LineCount = 6;
+
     [SerializeField]
     private Rigidbody Ball;
 
@@ -61,12 +59,15 @@ public class GameManager : MonoBehaviour
     private bool isChangingLevel = false; // New flag to prevent multiple coroutines
 
     private bool m_Started = false;
-    private int m_TotalBrick = 0;
+    
     private bool m_GameOver = false;
     [SerializeField]
     private GameObject backToMenu;
 
     private ScoreManager scoreManager;
+    private BrickManager brickManager;
+
+    
 
     void Start()
     {
@@ -78,18 +79,26 @@ public class GameManager : MonoBehaviour
         }
 
        UpdateGameState(GameStates.ballIdle);
+       UpdateLevelText();
 
-        InitiateBlocks();
-        
-        
-        UpdateLevelText();
+
 
     }
+    void OnEnable()
+    {
+        brickManager = FindObjectOfType<BrickManager>();
+        brickManager.LevelFinished += OnLevelFinished;
+
+
+    }
+
    
     void OnDestroy()
     {
+        brickManager.LevelFinished -= OnLevelFinished;
+       
         
-        BrickPrefab.onDestroyed -= AddPoint;
+        
     }
 
     void Update()
@@ -108,48 +117,21 @@ public class GameManager : MonoBehaviour
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
-        else
-        {
-            // Check for new level in Update instead
-            CheckForNewLevel();
-        }
-    }
-
-    void InitiateBlocks()
-    {
-        const float step = 0.6f;
-        int perLine = Mathf.FloorToInt(4.0f / step);
-        m_TotalBrick = 0;
-
-        int[] pointCountArray = new[] { 1, 1, 2, 2, 5, 5 };
-        for (int i = 0; i < LineCount; ++i)
-        {
-            for (int x = 0; x < perLine; ++x)
-            {
-                Vector3 position = new Vector3(-1.5f + step * x, 2.5f + i * 0.3f, 0);
-                var brick = Instantiate(BrickPrefab, position, Quaternion.identity);
-                brick.PointValue = pointCountArray[i];
-                brick.onDestroyed += AddPoint;
-                m_TotalBrick++;
-            }
-        }
-        
-    }
-    void AddPoint(int point)
-    {
-        scoreManager.AddPoints(point);
-        m_TotalBrick--;
-
 
 
     }
-    void CheckForNewLevel()
+
+    
+
+
+    private void OnLevelFinished()
     {
-        // Check if there are no more bricks in the scene and we're not already changing level
-        if (m_TotalBrick <= 0 && FindObjectsOfType<Brick>().Length == 0 && !isChangingLevel)
+        if(FindObjectsOfType<Brick>().Length == 0 && !isChangingLevel)
         {
             StartCoroutine(InitiateNextLevel());
+
         }
+
     }
 
     IEnumerator InitiateNextLevel()
@@ -163,7 +145,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(5f); // Wait for 5 seconds
 
         LevelText.gameObject.SetActive(false); // Hide level text
-        InitiateBlocks(); // Initialize new blocks
+        brickManager.InitiateBlocks(); // Initialize new blocks
         isChangingLevel = false; // Reset the flag
     }
     void UpdateLevelText()
@@ -173,20 +155,7 @@ public class GameManager : MonoBehaviour
             LevelText.text = $"Level {currentLevel}";
         }
     }
-    void DeleteAllBricks()
-    {
-        // Find all brick objects in the scene
-        Brick[] bricks = FindObjectsOfType<Brick>();
-        
-        // Destroy each brick
-        foreach (var brick in bricks)
-        {
-            Destroy(brick.gameObject);
-        }
-
-        // Reset the brick count
-        m_TotalBrick = 0;
-    }
+    
     
    
  
@@ -210,7 +179,7 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         m_GameOver = true;
-        DeleteAllBricks();
+        brickManager.DeleteAllBricks();
         GameOverText.SetActive(true);
         //UpdateHighscoreText();
         backToMenu.SetActive(true);
