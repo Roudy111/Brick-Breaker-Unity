@@ -48,7 +48,9 @@ public class BrickManager : MonoBehaviour
                 brick.onDestroyed += AddPoint;
                 m_TotalBrick++;
             }
+            
         }
+        Debug.Log($"Total Bricks : {m_TotalBrick} ");
         
     }
     void AddPoint(int point)
