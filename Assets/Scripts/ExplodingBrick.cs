@@ -7,7 +7,6 @@ public class ExplodingBrick : Brick
     [SerializeField] private float upwardsModifier = 0.4f;
     [SerializeField] private LayerMask brickLayer;
     [SerializeField] private AudioClip explosionSFX;
-    private AudioSource audioSource;
 
     private bool hasExploded = false;
 
@@ -15,32 +14,10 @@ public class ExplodingBrick : Brick
     {
         base.Start();
         SetBrickLayerMask();
-        SetupAudioSource();
+
  
     }
-    private void SetupAudioSource()
-    {
-        audioSource = GetComponent<AudioSource>();
-        if (audioSource == null)
-        {
-            audioSource = gameObject.AddComponent<AudioSource>();
-            Debug.Log("Added AudioSource component to ExplodingBrick");
-        }
 
-        // Ensure the AudioSource is set up correctly
-        audioSource.playOnAwake = false;
-        audioSource.spatialBlend = 1f; // 3D sound
-        audioSource.volume = 1f;
-
-        if (explosionSFX == null)
-        {
-            Debug.LogError("Explosion SFX is not assigned to ExplodingBrick");
-        }
-        else
-        {
-            Debug.Log($"Explosion SFX '{explosionSFX.name}' is assigned to ExplodingBrick");
-        }
-    }
     private void PlayExplosionSound()
     {
         if (explosionSFX != null && audioSource != null)
