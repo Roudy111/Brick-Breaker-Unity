@@ -14,14 +14,11 @@ public abstract class Brick : MonoBehaviour
 
     protected virtual void Start()
     {
-        InitializeRenderer();
+
 
     }
 
-    protected void InitializeRenderer()
-    {
 
-    }
 
 
 
