@@ -149,3 +149,4 @@ MonoBehaviour:
   PointValue: 0
   gizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   showGizmos: 1
+  clickSFX: {fileID: 8300000, guid: da19a62668d740541b0ea676763858a2, type: 3}
