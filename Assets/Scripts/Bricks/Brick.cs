@@ -49,7 +49,7 @@ public abstract class Brick : MonoBehaviour
         {
             onDestroyed?.Invoke(PointValue);
             isDestroyed = true;
-            Destroy(gameObject, 0.01f);
+            Destroy(gameObject, 0.1f);
         }
     }
 
