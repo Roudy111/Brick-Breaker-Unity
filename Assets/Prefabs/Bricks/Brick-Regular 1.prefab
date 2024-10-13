@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -6160373661746539011}
   - component: {fileID: 5622319755512730955}
   m_Layer: 7
-  m_Name: Brick-Regular
+  m_Name: Brick-Regular 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5ece0b49f1ea03d41b4d2d9863527d99, type: 2}
+  - {fileID: 2100000, guid: abcb139af4008b74eba9f76a7db39c3c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
