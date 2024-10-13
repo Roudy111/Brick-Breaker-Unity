@@ -8,7 +8,6 @@ public class RegularBrick : Brick
     {
         if (clickSFX != null && audioSource != null)
         {
-            Debug.Log($"Playing explosion sound: {clickSFX.name}");
             AudioSource.PlayClipAtPoint(clickSFX, transform.position);
         }
         else

@@ -22,7 +22,6 @@ public class ExplodingBrick : Brick
     {
         if (explosionSFX != null && audioSource != null)
         {
-            Debug.Log($"Playing explosion sound: {explosionSFX.name}");
             AudioSource.PlayClipAtPoint(explosionSFX, transform.position);
         }
         else
