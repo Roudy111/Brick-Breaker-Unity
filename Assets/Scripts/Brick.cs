@@ -16,7 +16,7 @@ public abstract class Brick : MonoBehaviour
     protected virtual void Start()
     {
         InitializeRenderer();
-        SetBrickColor();
+
     }
 
     protected void InitializeRenderer()
@@ -25,27 +25,9 @@ public abstract class Brick : MonoBehaviour
         materialPropertyBlock = new MaterialPropertyBlock();
     }
 
-    protected void SetBrickColor()
-    {
-        Color brickColor = GetColorByPointValue();
-        materialPropertyBlock.SetColor("_BaseColor", brickColor);
-        brickRenderer.SetPropertyBlock(materialPropertyBlock);
-    }
 
-    protected virtual Color GetColorByPointValue()
-    {
-        switch (PointValue)
-        {
-            case 1:
-                return Color.magenta;
-            case 2:
-                return Color.yellow;
-            case 5:
-                return Color.blue;
-            default:
-                return Color.red;
-        }
-    }
+
+
 
     protected virtual void OnCollisionEnter(Collision other)
     {
