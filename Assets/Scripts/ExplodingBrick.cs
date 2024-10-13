@@ -1,0 +1,91 @@
+using UnityEngine;
+
+public class ExplodingBrick : Brick
+{
+    [SerializeField] private float explosionForce = 500f;
+    [SerializeField] private float explosionRadius = 1.5f;
+    [SerializeField] private float upwardsModifier = 0.4f;
+    [SerializeField] private LayerMask brickLayer;
+
+    private bool hasExploded = false;
+
+    protected override void Start()
+    {
+        base.Start();
+        SetBrickLayerMask();
+    }
+
+    private void SetBrickLayerMask()
+    {
+        // Set the layer mask to only include the brick layer (layer 7)
+        brickLayer = 1 << 7;
+    }
+
+    protected override void OnCollisionEnter(Collision other)
+    {
+        if (!isDestroyed && !hasExploded)
+        {
+            DestroyBrick();
+        }
+    }
+
+    public override void DestroyBrick()
+    {
+        if (!isDestroyed && !hasExploded)
+        {
+            base.DestroyBrick();
+            Explode();
+        }
+    }
+
+    private void Explode()
+    {
+        hasExploded = true;
+        ApplyExplosionForce(true);
+    }
+
+    private void ApplyExplosionForce(bool isInitialExplosion)
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius, brickLayer);
+        foreach (Collider hit in colliders)
+        {
+            Rigidbody rb = hit.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.AddExplosionForce(explosionForce, transform.position, explosionRadius, upwardsModifier);
+            }
+
+            Brick hitBrick = hit.GetComponent<Brick>();
+            if (hitBrick != null && !hitBrick.IsDestroyed())
+            {
+                if (hitBrick is ExplodingBrick explodingBrick)
+                {
+                    if (isInitialExplosion)
+                    {
+                        explodingBrick.TriggerExplosion();
+                    }
+                }
+                else
+                {
+                    hitBrick.DestroyBrick();
+                }
+            }
+        }
+    }
+
+    public void TriggerExplosion()
+    {
+        if (!isDestroyed && !hasExploded)
+        {
+            DestroyBrick();
+        }
+    }
+
+    protected override void DrawGizmos()
+    {
+        base.DrawGizmos();
+        if (!showGizmos) return;
+        Gizmos.color = gizmoColor;
+        Gizmos.DrawWireSphere(transform.position, explosionRadius);
+    }
+}

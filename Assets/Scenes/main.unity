@@ -1264,8 +1264,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c105dc74ba394bdf878f4e2a153aeac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BrickPrefab: {fileID: 897975713663390409, guid: 63f25b9733d2bcd4fa2ff6de1264c739, type: 3}
+  regularBrickPrefab: {fileID: 5622319755512730955, guid: 63f25b9733d2bcd4fa2ff6de1264c739, type: 3}
+  explodingBrickPrefab: {fileID: 1857069994085649251, guid: dc9e873ebdc3ac84a9fec3a4ad6dc781, type: 3}
   LineCount: 6
+  explodingBrickProbability: 0.2
 --- !u!4 &1150623562
 Transform:
   m_ObjectHideFlags: 0
