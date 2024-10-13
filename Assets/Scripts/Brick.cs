@@ -10,8 +10,7 @@ public abstract class Brick : MonoBehaviour
     [SerializeField] protected bool showGizmos = true;
 
     protected bool isDestroyed = false;
-    protected Renderer brickRenderer;
-    protected MaterialPropertyBlock materialPropertyBlock;
+
 
     protected virtual void Start()
     {
@@ -21,9 +20,9 @@ public abstract class Brick : MonoBehaviour
 
     protected void InitializeRenderer()
     {
-        brickRenderer = GetComponentInChildren<Renderer>();
-        materialPropertyBlock = new MaterialPropertyBlock();
+
     }
+
 
 
 
