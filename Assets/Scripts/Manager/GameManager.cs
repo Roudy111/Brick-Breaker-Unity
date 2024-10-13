@@ -126,10 +126,11 @@ public class GameManager : MonoBehaviour
 
     private void OnLevelFinished()
     {
-        if(FindObjectsOfType<Brick>().Length == 0 && !isChangingLevel)
+        
+        if(!isChangingLevel)
         {
             StartCoroutine(InitiateNextLevel());
-
+            
         }
 
     }
