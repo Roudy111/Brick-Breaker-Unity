@@ -25,7 +25,7 @@ public abstract class Brick : MonoBehaviour
         if (audioSource == null)
         {
             audioSource = gameObject.AddComponent<AudioSource>();
-            Debug.Log("Added AudioSource component to ExplodingBrick");
+
         }
 
         // Ensure the AudioSource is set up correctly
