@@ -38,7 +38,7 @@ public class ExplodingBrick : Brick
 
     protected override void OnCollisionEnter(Collision other)
     {
-        if (!isDestroyed && !hasExploded)
+        if (!IsDestroyed && !hasExploded)
         {
             DestroyBrick();
  
@@ -48,7 +48,7 @@ public class ExplodingBrick : Brick
 
     public override void DestroyBrick()
     {
-        if (!isDestroyed && !hasExploded)
+        if (!IsDestroyed && !hasExploded)
         {
             base.DestroyBrick();
             Explode();
@@ -76,7 +76,7 @@ public class ExplodingBrick : Brick
             }
 
             Brick hitBrick = hit.GetComponent<Brick>();
-            if (hitBrick != null && !hitBrick.isDestroyed)
+            if (hitBrick != null && !hitBrick.IsDestroyed)
             {
                 if (hitBrick is ExplodingBrick explodingBrick)
                 {
@@ -95,7 +95,7 @@ public class ExplodingBrick : Brick
 
     public void TriggerExplosion()
     {
-        if (!isDestroyed && !hasExploded)
+        if (!IsDestroyed && !hasExploded)
         {
             DestroyBrick();
         }

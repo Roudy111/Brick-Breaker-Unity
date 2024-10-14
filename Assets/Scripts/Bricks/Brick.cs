@@ -10,7 +10,7 @@ public abstract class Brick : MonoBehaviour
     [SerializeField] protected bool showGizmos = true;
     protected private AudioSource audioSource;
 
-    public bool isDestroyed { get; private set; } = false;
+    public bool IsDestroyed { get; private set; } = false;
 
 
     protected virtual void Start()
@@ -37,7 +37,7 @@ public abstract class Brick : MonoBehaviour
 
     protected virtual void OnCollisionEnter(Collision other)
     {
-        if (!isDestroyed)
+        if (!IsDestroyed)
         {
             DestroyBrick();
         }
@@ -45,10 +45,10 @@ public abstract class Brick : MonoBehaviour
 
     public virtual void DestroyBrick()
     {
-        if (!isDestroyed)
+        if (!IsDestroyed)
         {
             BrickDestroyed?.Invoke(PointValue);
-            isDestroyed = true;
+            IsDestroyed = true;
             Destroy(gameObject, 0.1f);
         }
     }

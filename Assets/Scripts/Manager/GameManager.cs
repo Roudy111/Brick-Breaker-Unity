@@ -86,12 +86,7 @@ public class GameManager : MonoBehaviour
     }
 
    
-    void OnDestroy()
-    {
-       
-        
-        
-    }
+
 
     void Update()
     {
@@ -117,7 +112,7 @@ public class GameManager : MonoBehaviour
     {
         m_Started = true;
         float randomDirection = UnityEngine.Random.Range(-1.0f, 1.0f);
-        Vector3 forceDir = new Vector3(randomDirection, 1, 0);
+        Vector3 forceDir = new(randomDirection, 1, 0);
         forceDir.Normalize();
 
         Ball.transform.SetParent(null);

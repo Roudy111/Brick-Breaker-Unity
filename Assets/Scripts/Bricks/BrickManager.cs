@@ -42,7 +42,7 @@ public class BrickManager : MonoBehaviour
         {
             for (int x = 0; x < perLine; ++x)
             {
-                Vector3 position = new Vector3(-1.5f + step * x, 2.5f + i * 0.3f, 0);
+                Vector3 position = new(-1.5f + step * x, 2.5f + i * 0.3f, 0);
                 Brick brick;
 
                 if (UnityEngine.Random.value < explodingBrickProbability && explodingBrickPrefab != null)
