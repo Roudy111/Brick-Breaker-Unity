@@ -9,14 +9,15 @@ public class ExplodingBrick : Brick
     [SerializeField] private AudioClip explosionSFX;
 
     private bool hasExploded = false;
-
-    public override void Initialize()
+    protected override void Start()
     {
-        base.Initialize();
+        base.Start();
         SetBrickLayerMask();
 
- 
+
     }
+
+
 
     private void PlayExplosionSound()
     {
