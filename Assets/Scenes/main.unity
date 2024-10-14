@@ -543,7 +543,6 @@ MonoBehaviour:
   state: 0
   Ball: {fileID: 177912862}
   GameOverText: {fileID: 474497238}
-  LevelText: {fileID: 1252187110}
   backToMenu: {fileID: 743160540}
 --- !u!1 &455529321
 GameObject:
@@ -1843,6 +1842,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9647c22c1fc3c4f0e9a34cff3ecff697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LevelText: {fileID: 1252187110}
 --- !u!4 &1557592278
 Transform:
   m_ObjectHideFlags: 0

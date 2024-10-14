@@ -53,10 +53,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject GameOverText;
 
-    [SerializeField] private Text LevelText;
 
-    public int currentLevel { get; private set; } = 1; // the variable to track current Level -- always initialzed at 1 
-    private bool isChangingLevel = false; // New flag to prevent multiple coroutines
 
     private bool m_Started = false;
     
@@ -66,6 +63,7 @@ public class GameManager : MonoBehaviour
 
     private ScoreManager scoreManager;
     private BrickManager brickManager;
+
 
     
 
@@ -79,23 +77,17 @@ public class GameManager : MonoBehaviour
         }
 
        UpdateGameState(GameStates.ballIdle);
-       UpdateLevelText();
-
-
 
     }
     void OnEnable()
     {
         brickManager = FindObjectOfType<BrickManager>();
-        brickManager.LevelFinished += OnLevelFinished;
-
 
     }
 
    
     void OnDestroy()
     {
-        brickManager.LevelFinished -= OnLevelFinished;
        
         
         
@@ -120,51 +112,6 @@ public class GameManager : MonoBehaviour
 
 
     }
-
-    
-
-
-    private void OnLevelFinished()
-    {
-        
-        if(!isChangingLevel)
-        {
-            StartCoroutine(InitiateNextLevel());
-            
-        }
-
-    }
-
-    IEnumerator InitiateNextLevel()
-    {
-        isChangingLevel = true;
-        currentLevel++; // Increment level
-        
-        UpdateLevelText(); // Update level text
-        LevelText.gameObject.SetActive(true); // Show level text
-
-        yield return new WaitForSeconds(5f); // Wait for 5 seconds
-
-        LevelText.gameObject.SetActive(false); // Hide level text
-        brickManager.InitiateBlocks(); // Initialize new blocks
-        isChangingLevel = false; // Reset the flag
-    }
-    void UpdateLevelText()
-    {
-        if (LevelText != null)
-        {
-            LevelText.text = $"Level {currentLevel}";
-        }
-    }
-    
-    
-   
- 
-
-
-
-
-    
 
     void StartGame()
     {
