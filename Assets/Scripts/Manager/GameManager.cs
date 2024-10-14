@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
     private GameObject backToMenu;
 
     private ScoreManager scoreManager;
-    private BrickManager brickManager;
+    private LevelManager levelManager;
 
 
     
@@ -81,7 +81,8 @@ public class GameManager : MonoBehaviour
     }
     void OnEnable()
     {
-        brickManager = FindObjectOfType<BrickManager>();
+        
+        levelManager = FindObjectOfType<LevelManager>();
 
     }
 
@@ -122,7 +123,7 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         m_GameOver = true;
-        brickManager.DeleteAllBricks();
+        levelManager.DeleteAllBricks();
         GameOverText.SetActive(true);
         //UpdateHighscoreText();
         backToMenu.SetActive(true);
