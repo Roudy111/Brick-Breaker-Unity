@@ -10,9 +10,9 @@ public class ExplodingBrick : Brick
 
     private bool hasExploded = false;
 
-    protected override void Start()
+    public override void Initialize()
     {
-        base.Start();
+        base.Initialize();
         SetBrickLayerMask();
 
  

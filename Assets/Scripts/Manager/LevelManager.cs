@@ -10,12 +10,14 @@ public class LevelManager : MonoBehaviour
     
     [SerializeField] private Text LevelText;
     private BrickManager brickManager;
+    private Factory brickFactory;
 
     void OnEnable()
     {
-        brickManager = FindObjectOfType<BrickManager>();
+        BrickManager.LevelFinished += OnLevelFinished;
 
-        brickManager.LevelFinished += OnLevelFinished;
+
+
 
     }
 
@@ -32,7 +34,9 @@ public class LevelManager : MonoBehaviour
     }
     void OnDestroy()
     {
-        brickManager.LevelFinished -= OnLevelFinished;
+        BrickManager.LevelFinished -= OnLevelFinished;
+
+
 
     }
         IEnumerator InitiateNextLevel()
