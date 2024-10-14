@@ -8,7 +8,7 @@ using System;
 public enum GameStates
 {
     ballIdle,
-    ballMove,
+    gameloop,
     levelChange,
     gameOver,
 
@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
         {
             case GameStates.ballIdle:
                 break;
-            case GameStates.ballMove:
+            case GameStates.gameloop:
                 break;
             case GameStates.levelChange:
                 break;
