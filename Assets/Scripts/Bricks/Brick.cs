@@ -3,7 +3,7 @@ using System;
 
 public abstract class Brick : MonoBehaviour
 {
-    public event Action<int> onDestroyed;
+    public static event Action<int> BrickDestroyed;
 
     public int PointValue;
     [SerializeField] protected Color gizmoColor = Color.yellow;
@@ -47,7 +47,7 @@ public abstract class Brick : MonoBehaviour
     {
         if (!isDestroyed)
         {
-            onDestroyed?.Invoke(PointValue);
+            BrickDestroyed?.Invoke(PointValue);
             isDestroyed = true;
             Destroy(gameObject, 0.1f);
         }

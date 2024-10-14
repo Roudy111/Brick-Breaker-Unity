@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 
 
@@ -16,19 +17,17 @@ public class BrickManager : MonoBehaviour
 
     void Start()
     {
+        // subscribe to bricks destruction event for couting the Bricks & adding score
+        Brick.BrickDestroyed += BrickCounter;
+        Brick.BrickDestroyed += UpdateScore;
         InitiateBlocks();
     }
 
     void OnDestroy()
     {
-        // Clean up event subscriptions
-        Brick[] bricks = FindObjectsOfType<Brick>();
-        foreach (var brick in bricks)
-        {
-            brick.onDestroyed -= BrickCounter;
-            brick.onDestroyed -= Addpoint;
+        Brick.BrickDestroyed -= BrickCounter;
+        Brick.BrickDestroyed -= UpdateScore;
 
-        }
     }
 
     public void InitiateBlocks()
@@ -55,10 +54,7 @@ public class BrickManager : MonoBehaviour
                     int randomPrefab = UnityEngine.Random.Range(0, brickPrebafs.Count);
                     brick = Instantiate(brickPrebafs[randomPrefab], position, Quaternion.identity);
                 }
-                // subscribe to onDestroyed for couting the Bricks
-                brick.onDestroyed += BrickCounter;
-                // subscribe to OnDestoyed for counting Score 
-                brick.onDestroyed += Addpoint;
+
 
                 m_TotalBrick++;
 
@@ -82,7 +78,7 @@ public class BrickManager : MonoBehaviour
         }
     }
 
-    void Addpoint(int PointValue)
+    void UpdateScore(int PointValue)
     {
         ScoreManager.Instance.AddPoints(PointValue);
     }
@@ -94,8 +90,6 @@ public class BrickManager : MonoBehaviour
 
         foreach (var brick in bricks)
         {
-            brick.onDestroyed -= BrickCounter;
-            brick.onDestroyed -= Addpoint;
 
             Destroy(brick.gameObject);
         }
