@@ -10,7 +10,7 @@ public abstract class Brick : MonoBehaviour
     [SerializeField] protected bool showGizmos = true;
     protected private AudioSource audioSource;
 
-    protected bool isDestroyed = false;
+    public bool isDestroyed { get; private set; } = false;
 
 
     protected virtual void Start()
@@ -53,11 +53,7 @@ public abstract class Brick : MonoBehaviour
         }
     }
 
-    // Add this new method
-    public bool IsDestroyed()
-    {
-        return isDestroyed;
-    }
+
 
     protected virtual void OnDrawGizmosSelected()
     {

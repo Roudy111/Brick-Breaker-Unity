@@ -76,7 +76,7 @@ public class ExplodingBrick : Brick
             }
 
             Brick hitBrick = hit.GetComponent<Brick>();
-            if (hitBrick != null && !hitBrick.IsDestroyed())
+            if (hitBrick != null && !hitBrick.isDestroyed)
             {
                 if (hitBrick is ExplodingBrick explodingBrick)
                 {
