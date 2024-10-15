@@ -9,15 +9,14 @@ public class Paddle : MonoBehaviour
     [SerializeField]
     private float MaxMovement = 1.9f;
 
- 
-
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
+    {
+        playerControll();
+
+        
+    }
+    private void playerControll()
     {
         float input = Input.GetAxis("Horizontal");
 
@@ -31,9 +30,8 @@ public class Paddle : MonoBehaviour
 
         transform.position = pos;
 
-
-        
     }
+
 
 
 }

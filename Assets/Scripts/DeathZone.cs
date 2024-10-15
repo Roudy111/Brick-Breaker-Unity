@@ -10,7 +10,8 @@ public class DeathZone : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
         Destroy(other.gameObject);
-        // need to change to subscribe to gameover state
+        // change the state to GameOver after the collision of the ball wth DeathZone
+        GameManager.instance.UpdateGameState(GameStates.gameOver);
 
     }
 }

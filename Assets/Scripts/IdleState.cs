@@ -7,10 +7,17 @@ public class IdleState : MonoBehaviour
     [SerializeField]
     private Rigidbody Ball;
     // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
 
     }
+    private void OnDisable()
+    {
+
+
+    }
+
+
 
     // Update is called once per frame
     void Update()
@@ -22,6 +29,8 @@ public class IdleState : MonoBehaviour
 
 
     }
+    
+
 
     void StartGame()
     {
@@ -32,5 +41,8 @@ public class IdleState : MonoBehaviour
 
         Ball.transform.SetParent(null);
         Ball.AddForce(forceDir * 2.0f, ForceMode.VelocityChange);
+
+        //change to GamePlay state
+        GameManager.instance.UpdateGameState(GameStates.gameloop);
     }
 }
