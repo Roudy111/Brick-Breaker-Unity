@@ -32,7 +32,7 @@ public class LevelManager : MonoBehaviour
        UpdateLevelText();
        // subscribe to bricks destruction event for couting the Bricks & adding score
         Brick.BrickDestroyed += BrickCounter;
-        Brick.BrickDestroyed += UpdateScore;
+
         if (brickFactory == null)
         {
             Debug.LogError("BrickFactory is not set in BrickManager!");
@@ -73,7 +73,7 @@ public class LevelManager : MonoBehaviour
     {
         LevelFinished -=OnLevelFinished;
         Brick.BrickDestroyed -= BrickCounter;
-        Brick.BrickDestroyed -= UpdateScore;
+
 
 
 
@@ -108,10 +108,6 @@ public class LevelManager : MonoBehaviour
         {
             LevelFinished?.Invoke();
         }
-    }
-    void UpdateScore(int PointValue)
-    {
-        ScoreManager.Instance.AddPoints(PointValue);
     }
 
     public void DeleteAllBricks()
