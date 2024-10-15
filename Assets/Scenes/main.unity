@@ -1775,7 +1775,7 @@ MonoBehaviour:
   - {fileID: 8180362683896926288, guid: c96867d5f9146044cb4f93b6fdc7fb2e, type: 3}
   - {fileID: 6482164683343469754, guid: 1a0765c5d4e000a46a9f2064cfeda2cd, type: 3}
   explodingBrickPrefab: {fileID: 1857069994085649251, guid: dc9e873ebdc3ac84a9fec3a4ad6dc781, type: 3}
-  explodingBrickProbability: 0.8
+  explodingBrickProbability: 0.2
 --- !u!4 &1515278649
 Transform:
   m_ObjectHideFlags: 0

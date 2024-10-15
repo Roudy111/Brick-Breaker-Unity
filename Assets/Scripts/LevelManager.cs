@@ -12,7 +12,6 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Text LevelText;
     [SerializeField] private int LineCount = 6;
 
-
     [SerializeField] private ConcreteBrickFactory brickFactory;
 
     void OnEnable()
@@ -20,16 +19,11 @@ public class LevelManager : MonoBehaviour
 
         Counter.LevelFinished += OnLevelFinished;
 
-
-
-
-
     }
 
     void Start()
     {
        UpdateLevelText();
-       // subscribe to bricks destruction event for couting the Bricks & adding score
 
         if (brickFactory == null)
         {

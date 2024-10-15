@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class Counter : MonoBehaviour
 {
+    /// <summary>
+    /// Count Bricks currently
+    /// can be used for other counting events also 
+    /// </summary>
     public static int m_TotalBrick { get; set; } = 0;
     public static event Action LevelFinished;
 
@@ -12,6 +16,8 @@ public class Counter : MonoBehaviour
 
     private void OnEnable()
     {
+        // subscribe to bricks destruction event for couting the Bricks 
+
         Brick.BrickDestroyed += BrickCounter;
 
 
@@ -20,10 +26,12 @@ public class Counter : MonoBehaviour
 
     private void OnDisable()
     {
+        //unsubscribe to event
         Brick.BrickDestroyed -= BrickCounter;
 
     }
 
+    // track the Bricks number and invoke the event of LevelFinished when the all bricks has been destoryed
     void BrickCounter(int point)
     {
         Debug.Log($"pointValue : {point}");

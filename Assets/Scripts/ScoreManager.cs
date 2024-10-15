@@ -3,6 +3,10 @@ using System;
 
 public class ScoreManager : singleton<ScoreManager>
 {
+
+    public event Action<int> ScoreChanged;
+    public event Action HighscoreUpdated;
+
     private int currentScore;
     public int CurrentScore
     {
@@ -18,8 +22,6 @@ public class ScoreManager : singleton<ScoreManager>
         }
     }
 
-    public event Action<int> ScoreChanged;
-    public event Action HighscoreUpdated;
 
     public override void Awake()
     {

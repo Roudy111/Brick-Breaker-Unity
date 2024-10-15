@@ -66,7 +66,6 @@ public class UIHandler : MonoBehaviour
         }
     }
 
-
     void CurrentPlayerNameSet()
     {
         if (CurrentplayerName != null && DataManager.Instance != null)

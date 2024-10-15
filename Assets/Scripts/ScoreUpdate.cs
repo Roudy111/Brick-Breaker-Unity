@@ -10,28 +10,27 @@ public class ScoreUpdate : MonoBehaviour
 
     void OnEnable()
     {
+        //subscribe the method to event
         Brick.BrickDestroyed += UpdateScore;
-        ScoreManager.Instance.ScoreChanged += OnScoreChanged;
+
     }
 
     void OnDisable()
     {
+        // Unsubscribe to event
+
         Brick.BrickDestroyed -= UpdateScore;
-        if (ScoreManager.Instance != null)
-        {
-            ScoreManager.Instance.ScoreChanged -= OnScoreChanged;
-        }
+
     }
 
+    //Method for updating score. Update score sent the value point of destructed brick to Addpoints
+    //Addpoints update the currentScore
     void UpdateScore(int pointValue)
     {
         ScoreManager.Instance.AddPoints(pointValue);
         Debug.Log($"Brick destroyed. Points added: {pointValue}");
     }
 
-    void OnScoreChanged(int newScore)
-    {
-        Debug.Log($"Score updated. Current score: {newScore}");
-    }
+
 }
 
