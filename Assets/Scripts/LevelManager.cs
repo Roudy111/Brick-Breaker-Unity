@@ -6,21 +6,40 @@ using System;
 
 public class LevelManager : MonoBehaviour
 {
-    public int currentLevel { get; private set; } = 1; // the variable to track current Level -- always initialzed at 1 
+    /// <summary>
+    /// LevelManager handles the game's level progression, brick initialization.
+    /// It follows the Single Responsibility Principle by focusing solely on level-related tasks based on our current level of game development.
+    /// 
+    /// Need to decouple UI after GameState implementation
+    /// </summary>
+
+
+    public static int currentLevel { get; private set; } = 1; // the field to track current Level -- always initialzed at 1 
     private bool isChangingLevel = false; // New flag to prevent multiple coroutines
     
     [SerializeField] private Text LevelText;
+
+    // Number of brick rows to create
     [SerializeField] private int LineCount = 6;
 
+    //reference to brick
     [SerializeField] private ConcreteBrickFactory brickFactory;
 
+   
+    
     void OnEnable()
     {
 
+        // Subscribes to the LevelFinished event when the script is enabled.
         Counter.LevelFinished += OnLevelFinished;
 
     }
+    void OnDestroy()
+    {
+        // Unsubscribes from the LevelFinished event when the script is destroyed.
+        Counter.LevelFinished -= OnLevelFinished;
 
+    }
     void Start()
     {
        UpdateLevelText();
@@ -32,6 +51,10 @@ public class LevelManager : MonoBehaviour
         InitiateBlocks();
         
     }
+
+    /// <summary>
+    /// Creates a grid of bricks for the current level using the brick factory.
+    /// </summary>
     public void InitiateBlocks()
     {
         const float step = 0.6f;
@@ -56,19 +79,9 @@ public class LevelManager : MonoBehaviour
         Debug.Log($"Total Bricks: {Counter.m_TotalBrick}");
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    void OnDestroy()
-    {
-        Counter.LevelFinished -= OnLevelFinished;
-
-
-
-
-    }
+    /// <summary>
+    /// Coroutine to handle the transition to the next level.
+    /// </summary>
     IEnumerator InitiateNextLevel()
     {
         isChangingLevel = true;
@@ -90,7 +103,23 @@ public class LevelManager : MonoBehaviour
             LevelText.text = $"Level {currentLevel}";
         }
     }
+    /// <summary>
+    /// Event handler for when a level is completed.
+    /// Initiates the transition to the next level if not already changing levels.
+    /// </summary>
 
+    private void OnLevelFinished()
+    {
+
+        if (!isChangingLevel)
+        {
+            StartCoroutine(InitiateNextLevel());
+        }
+
+    }
+    /// <summary>
+    /// Removes all existing bricks from the scene.
+    /// </summary>
     public void DeleteAllBricks()
     {
         Brick[] bricks = FindObjectsOfType<Brick>();
@@ -101,14 +130,5 @@ public class LevelManager : MonoBehaviour
         Counter.m_TotalBrick = 0;
     }
 
-    private void OnLevelFinished()
-    {
-        
-        if(!isChangingLevel)
-        {
-            StartCoroutine(InitiateNextLevel());
-            
-        }
-
-    }
+   
 }
