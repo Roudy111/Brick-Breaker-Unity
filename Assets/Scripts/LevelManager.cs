@@ -10,16 +10,15 @@ public class LevelManager : MonoBehaviour
     private bool isChangingLevel = false; // New flag to prevent multiple coroutines
     
     [SerializeField] private Text LevelText;
+    [SerializeField] private int LineCount = 6;
+
 
     [SerializeField] private ConcreteBrickFactory brickFactory;
-    [SerializeField] private int LineCount = 6;
-    private int m_TotalBrick = 0;
-    public event Action LevelFinished;
 
     void OnEnable()
     {
-        
-        LevelFinished +=OnLevelFinished;
+
+        Counter.LevelFinished += OnLevelFinished;
 
 
 
@@ -31,7 +30,6 @@ public class LevelManager : MonoBehaviour
     {
        UpdateLevelText();
        // subscribe to bricks destruction event for couting the Bricks & adding score
-        Brick.BrickDestroyed += BrickCounter;
 
         if (brickFactory == null)
         {
@@ -44,7 +42,7 @@ public class LevelManager : MonoBehaviour
     {
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
-        m_TotalBrick = 0;
+        Counter.m_TotalBrick = 0;
         for (int i = 0; i < LineCount; ++i)
         {
             for (int x = 0; x < perLine; ++x)
@@ -53,7 +51,7 @@ public class LevelManager : MonoBehaviour
                 IProduct product = brickFactory.GetProduct(position, Quaternion.identity);
                 if (product is Brick brick)
                 {
-                    m_TotalBrick++;
+                    Counter.m_TotalBrick++;
                 }
                 else
                 {
@@ -61,7 +59,7 @@ public class LevelManager : MonoBehaviour
                 }
             }
         }
-        Debug.Log($"Total Bricks: {m_TotalBrick}");
+        Debug.Log($"Total Bricks: {Counter.m_TotalBrick}");
     }
 
     // Update is called once per frame
@@ -71,14 +69,13 @@ public class LevelManager : MonoBehaviour
     }
     void OnDestroy()
     {
-        LevelFinished -=OnLevelFinished;
-        Brick.BrickDestroyed -= BrickCounter;
+        Counter.LevelFinished -= OnLevelFinished;
 
 
 
 
     }
-        IEnumerator InitiateNextLevel()
+    IEnumerator InitiateNextLevel()
     {
         isChangingLevel = true;
         currentLevel++; // Increment level
@@ -99,16 +96,6 @@ public class LevelManager : MonoBehaviour
             LevelText.text = $"Level {currentLevel}";
         }
     }
-        void BrickCounter(int point)
-    {
-        Debug.Log($"pointValue : {point}");
-        m_TotalBrick--;
-        Debug.Log($"Total Brick: {m_TotalBrick}");
-        if (m_TotalBrick == 0)
-        {
-            LevelFinished?.Invoke();
-        }
-    }
 
     public void DeleteAllBricks()
     {
@@ -117,7 +104,7 @@ public class LevelManager : MonoBehaviour
         {
             Destroy(brick.gameObject);
         }
-        m_TotalBrick = 0;
+        Counter.m_TotalBrick = 0;
     }
 
     private void OnLevelFinished()

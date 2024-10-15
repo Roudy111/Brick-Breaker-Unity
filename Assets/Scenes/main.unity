@@ -1775,7 +1775,7 @@ MonoBehaviour:
   - {fileID: 8180362683896926288, guid: c96867d5f9146044cb4f93b6fdc7fb2e, type: 3}
   - {fileID: 6482164683343469754, guid: 1a0765c5d4e000a46a9f2064cfeda2cd, type: 3}
   explodingBrickPrefab: {fileID: 1857069994085649251, guid: dc9e873ebdc3ac84a9fec3a4ad6dc781, type: 3}
-  explodingBrickProbability: 0.2
+  explodingBrickProbability: 0.8
 --- !u!4 &1515278649
 Transform:
   m_ObjectHideFlags: 0
@@ -1835,6 +1835,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1557592278}
   - component: {fileID: 1557592277}
+  - component: {fileID: 1557592279}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -1855,8 +1856,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LevelText: {fileID: 1252187110}
-  brickFactory: {fileID: 1515278648}
   LineCount: 6
+  brickFactory: {fileID: 1515278648}
 --- !u!4 &1557592278
 Transform:
   m_ObjectHideFlags: 0
@@ -1872,6 +1873,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1557592279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557592276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3596eeaf64ddcc4f88ff12f83068f2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1568428685
 GameObject:
   m_ObjectHideFlags: 0
