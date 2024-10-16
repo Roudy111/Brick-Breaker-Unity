@@ -7,6 +7,8 @@ public class GameOverState : MonoBehaviour
     [SerializeField] private GameObject gameOverText;
     [SerializeField] private GameObject backToMenuButton;
     [SerializeField] private LevelManager levelManager;
+    //for managing the input for Restartgame in update method instead of using new Input System which is overkill for this simple game
+    private bool IsGameOver = false;
   
 
     private void OnEnable()
@@ -21,7 +23,13 @@ public class GameOverState : MonoBehaviour
     {
         GameManager.OnGameStateChanged -= HandleGameStateChanged;
     }
-
+    private void Update()
+    {
+        if (IsGameOver && Input.GetKeyDown(KeyCode.Space))
+        {
+            RestartGame();
+        }
+    }
     private void HandleGameStateChanged(GameStates newState)
     {
         if (newState == GameStates.gameOver)
@@ -33,7 +41,7 @@ public class GameOverState : MonoBehaviour
 
     public void InitiateGameOver()
     {
-        
+        IsGameOver = true;
         levelManager.DeleteAllBricks();
         gameOverText.SetActive(true);
         backToMenuButton.SetActive(true);
@@ -55,4 +63,5 @@ public class GameOverState : MonoBehaviour
     {
         SceneManager.LoadScene(0); // Assuming 0 is your menu scene index
     }
+
 }
