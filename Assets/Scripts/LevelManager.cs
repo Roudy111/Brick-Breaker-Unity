@@ -77,7 +77,6 @@ public class LevelManager : MonoBehaviour
             }
         }
         Debug.Log($"Total Bricks: {Counter.m_TotalBrick}");
-        GameManager.instance.UpdateGameState(GameStates.gameloop);
 
     }
 
@@ -97,7 +96,10 @@ public class LevelManager : MonoBehaviour
 
         LevelText.gameObject.SetActive(false); // Hide level text
         InitiateBlocks(); // Initialize new blocks
+        GameManager.instance.UpdateGameState(GameStates.gameloop);
+
         isChangingLevel = false; // Reset the flag
+
     }
     void UpdateLevelText()
     {

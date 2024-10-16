@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System.Collections;
 public class Ball : MonoBehaviour
 {
     private Rigidbody m_Rigidbody;
@@ -10,14 +10,23 @@ public class Ball : MonoBehaviour
     [SerializeField] private float accelerationFactor = 0.01f;
     [SerializeField] private float verticalBias = 0.5f;
 
+    private Coroutine resetCoroutine;
+
+
     void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
         paddleTransform = transform.parent;
         initialLocalPosition = transform.localPosition;
 
-        // Subscribe to game state changes
+
+    }
+    
+    void OnEnable()
+    {
+     // Subscribe to game state changes
         GameManager.OnGameStateChanged += HandleGameStateChanged;
+
     }
 
     void OnDestroy()
@@ -54,8 +63,15 @@ public class Ball : MonoBehaviour
         m_Rigidbody.velocity = velocity;
 
     }
-
     public void ResetBall()
+    {
+        if (resetCoroutine != null)
+        {
+            StopCoroutine(resetCoroutine);
+        }
+        resetCoroutine = StartCoroutine(ResetBallCoroutine());
+    }
+     private IEnumerator ResetBallCoroutine()
     {
         // Reset position relative to paddle
         transform.SetParent(paddleTransform);
@@ -66,10 +82,22 @@ public class Ball : MonoBehaviour
         {
             m_Rigidbody.velocity = Vector3.zero;
             m_Rigidbody.angularVelocity = Vector3.zero;
-            m_Rigidbody.Sleep(); // This puts the rigidbody to sleep, stopping all physics simulation
-            m_Rigidbody.isKinematic = true; // This makes the rigidbody ignore forces and collisions
+            m_Rigidbody.Sleep();
+            m_Rigidbody.isKinematic = true;
+        }
+
+        // Wait for the specified delay
+        yield return new WaitForSeconds(1);
+
+        // Re-enable physics simulation
+        if (m_Rigidbody != null)
+        {
+            m_Rigidbody.isKinematic = false;
+            m_Rigidbody.WakeUp();
         }
     }
+
+    
 
     private void HandleGameStateChanged(GameStates newState)
     {
@@ -77,16 +105,6 @@ public class Ball : MonoBehaviour
         {
             ResetBall();
         }
-        else if (newState == GameStates.gameloop)
-        {
 
-
-            // Re-enable physics simulation
-            if (m_Rigidbody != null)
-            {
-                m_Rigidbody.isKinematic = false;
-                m_Rigidbody.WakeUp();
-            }
-        }
     }
 }
