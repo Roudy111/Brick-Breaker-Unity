@@ -73,14 +73,13 @@ public class Ball : MonoBehaviour
 
     private void HandleGameStateChanged(GameStates newState)
     {
-        if (newState == GameStates.levelIsChanging || newState == GameStates.ballIdle)
+        if (newState == GameStates.levelIsChanging)
         {
             ResetBall();
         }
         else if (newState == GameStates.gameloop)
         {
-            // Detach from paddle when game starts
-            transform.SetParent(null);
+
 
             // Re-enable physics simulation
             if (m_Rigidbody != null)

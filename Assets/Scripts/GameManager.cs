@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        UpdateGameState(GameStates.ballIdle);
+        UpdateGameState(GameStates.gameloop);
     }
 
 
@@ -44,9 +44,6 @@ public class GameManager : MonoBehaviour
 
         switch (newstate)
         {
-            case GameStates.ballIdle:
-                HandleBallIdle();
-                break;
             case GameStates.gameloop:
                 HandleGameLoop();
                 break;
@@ -63,10 +60,7 @@ public class GameManager : MonoBehaviour
         OnGameStateChanged?.Invoke(newstate);
     }
 
-    private void HandleBallIdle()
-    {
 
-    }
     private void HandleGameLoop()
     {
 
@@ -90,7 +84,6 @@ public class GameManager : MonoBehaviour
 }
 public enum GameStates
 {
-    ballIdle,
     gameloop,
     levelIsChanging,
     gameOver,
