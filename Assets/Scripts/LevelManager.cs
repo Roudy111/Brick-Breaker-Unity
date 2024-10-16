@@ -13,7 +13,7 @@ public class LevelManager : MonoBehaviour
     /// Need to decouple UI after GameState implementation
     /// </summary>
 
-
+    //encapsulation
     public static int currentLevel { get; private set; } = 1; // the field to track current Level -- always initialzed at 1 
 
     

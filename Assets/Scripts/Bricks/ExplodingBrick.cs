@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class ExplodingBrick : Brick
 {
+    /// <summary>
+    /// Inherited from Brick as a vriaty of the Brick --- information for submission in Unity Junior Programmer
+    /// </summary>
     [SerializeField] private float explosionForce = 500f;
     [SerializeField] private float explosionRadius = 1.5f;
     [SerializeField] private float upwardsModifier = 0.4f;
@@ -47,6 +50,7 @@ public class ExplodingBrick : Brick
         }
     }
 
+    //polymorphism
     public override void DestroyBrick()
     {
         if (!IsDestroyed && !hasExploded)
