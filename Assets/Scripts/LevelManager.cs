@@ -15,7 +15,7 @@ public class LevelManager : MonoBehaviour
 
 
     public static int currentLevel { get; private set; } = 1; // the field to track current Level -- always initialzed at 1 
-    private bool isChangingLevel = false; // New flag to prevent multiple coroutines
+
     
     [SerializeField] private Text LevelText;
 
@@ -77,6 +77,7 @@ public class LevelManager : MonoBehaviour
             }
         }
         Debug.Log($"Total Bricks: {Counter.m_TotalBrick}");
+
     }
 
     /// <summary>
@@ -84,7 +85,8 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     IEnumerator InitiateNextLevel()
     {
-        isChangingLevel = true;
+        GameManager.instance.UpdateGameState(GameStates.levelIsChanging);
+
         currentLevel++; // Increment level
         
         UpdateLevelText(); // Update level text
@@ -94,7 +96,13 @@ public class LevelManager : MonoBehaviour
 
         LevelText.gameObject.SetActive(false); // Hide level text
         InitiateBlocks(); // Initialize new blocks
-        isChangingLevel = false; // Reset the flag
+        Debug.Log("About to change state to GameLoop");
+
+        Debug.Log($"Current Game State: {GameManager.instance.state} before calling UpdateGameState to GameLoop");
+        GameManager.instance.UpdateGameState(GameStates.gameloop);
+
+
+
     }
     void UpdateLevelText()
     {
@@ -110,11 +118,9 @@ public class LevelManager : MonoBehaviour
 
     private void OnLevelFinished()
     {
-
-        if (!isChangingLevel)
-        {
+        
             StartCoroutine(InitiateNextLevel());
-        }
+        
 
     }
     /// <summary>
