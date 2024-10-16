@@ -555,9 +555,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fea0de6ca529114e9df1ef76137eb68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOverText: {fileID: 0}
-  backToMenuButton: {fileID: 0}
-  levelManager: {fileID: 0}
+  gameOverText: {fileID: 474497238}
+  backToMenuButton: {fileID: 743160540}
+  levelManager: {fileID: 1557592277}
 --- !u!114 &450625944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1097,9 +1097,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 450625942}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Back2Menu
+      - m_Target: {fileID: 450625943}
+        m_TargetAssemblyTypeName: GameOverState, Assembly-CSharp
+        m_MethodName: BackToMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

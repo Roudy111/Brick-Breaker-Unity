@@ -31,8 +31,9 @@ public class GameOverState : MonoBehaviour
     }
 
 
-    private void InitiateGameOver()
+    public void InitiateGameOver()
     {
+        
         levelManager.DeleteAllBricks();
         gameOverText.SetActive(true);
         backToMenuButton.SetActive(true);

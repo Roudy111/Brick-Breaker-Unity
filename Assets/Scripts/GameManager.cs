@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 
     private ScoreManager scoreManager;
     private LevelManager levelManager;
+    private GameOverState gameOverState;
 
     void Start()
     {
@@ -34,6 +35,7 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
         levelManager = FindObjectOfType<LevelManager>();
+        gameOverState = FindObjectOfType<GameOverState>();
     }
     public void UpdateGameState(GameStates newstate)
     {
@@ -75,7 +77,11 @@ public class GameManager : MonoBehaviour
     }
     private void HandleGameOver()
     {
+        if (!gameOverState)
+        {
 
+            gameOverState.InitiateGameOver();
+        }
     }
 
 

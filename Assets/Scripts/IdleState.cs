@@ -34,15 +34,18 @@ public class IdleState : MonoBehaviour
 
     void StartGame()
     {
+        if (Ball != null)
+        {
+            float randomDirection = UnityEngine.Random.Range(-1.0f, 1.0f);
+            Vector3 forceDir = new(randomDirection, 1, 0);
+            forceDir.Normalize();
 
-        float randomDirection = UnityEngine.Random.Range(-1.0f, 1.0f);
-        Vector3 forceDir = new(randomDirection, 1, 0);
-        forceDir.Normalize();
+            Ball.transform.SetParent(null);
+            Ball.AddForce(forceDir * 2.0f, ForceMode.VelocityChange);
 
-        Ball.transform.SetParent(null);
-        Ball.AddForce(forceDir * 2.0f, ForceMode.VelocityChange);
+            //change to GamePlay state
+            GameManager.instance.UpdateGameState(GameStates.gameloop);
+        }
 
-        //change to GamePlay state
-        GameManager.instance.UpdateGameState(GameStates.gameloop);
     }
 }
