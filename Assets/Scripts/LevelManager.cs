@@ -57,6 +57,7 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     public void InitiateBlocks()
     {
+        GameManager.instance.UpdateGameState(GameStates.gameloop);
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         Counter.m_TotalBrick = 0;
@@ -84,6 +85,7 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     IEnumerator InitiateNextLevel()
     {
+        GameManager.instance.UpdateGameState(GameStates.levelIsChanging);
         isChangingLevel = true;
         currentLevel++; // Increment level
         
