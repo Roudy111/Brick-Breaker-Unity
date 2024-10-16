@@ -2,27 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IdleState : MonoBehaviour
+public class GameLoopState : MonoBehaviour
 {
     [SerializeField]
     private Rigidbody Ball;
     // Start is called before the first frame update
-    private void OnEnable()
-    {
 
-    }
-    private void OnDisable()
-    {
-
-
-    }
 
 
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+
+        if (Input.GetKeyDown(KeyCode.Space) && GameManager.instance.state == GameStates.gameloop)
         {
             StartGame();
         }
