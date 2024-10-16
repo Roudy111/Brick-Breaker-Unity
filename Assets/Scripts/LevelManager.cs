@@ -57,7 +57,6 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     public void InitiateBlocks()
     {
-        GameManager.instance.UpdateGameState(GameStates.gameloop);
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         Counter.m_TotalBrick = 0;
@@ -78,6 +77,8 @@ public class LevelManager : MonoBehaviour
             }
         }
         Debug.Log($"Total Bricks: {Counter.m_TotalBrick}");
+        GameManager.instance.UpdateGameState(GameStates.gameloop);
+
     }
 
     /// <summary>

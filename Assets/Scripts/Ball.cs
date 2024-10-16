@@ -28,6 +28,12 @@ public class Ball : MonoBehaviour
 
     private void OnCollisionExit(Collision other)
     {
+        AdjustVelocityAfterCollision();
+
+    }
+
+    private void AdjustVelocityAfterCollision()
+    {
         var velocity = m_Rigidbody.velocity;
 
         // After a collision we accelerate a bit
@@ -46,6 +52,7 @@ public class Ball : MonoBehaviour
         }
 
         m_Rigidbody.velocity = velocity;
+
     }
 
     public void ResetBall()
