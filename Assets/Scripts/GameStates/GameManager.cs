@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     private ScoreManager scoreManager;
     private LevelManager levelManager;
     private GameOverState gameOverState;
+    private Ball ball;
 
     void Start()
     {
@@ -36,6 +37,8 @@ public class GameManager : MonoBehaviour
         instance = this;
         levelManager = FindObjectOfType<LevelManager>();
         gameOverState = FindObjectOfType<GameOverState>();
+        ball = FindObjectOfType<Ball>();
+
     }
     public void UpdateGameState(GameStates newstate)
     {
@@ -67,6 +70,8 @@ public class GameManager : MonoBehaviour
     }
     private void HandleLevelIschanging()
     {
+       ball.ResetBall();
+
 
     }
     private void HandleGameOver()
