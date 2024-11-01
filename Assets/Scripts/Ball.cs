@@ -26,7 +26,7 @@ public class Ball : MonoBehaviour
     void Update()
     {
         // Only check for launch in BallIdle state
-        if (GameStateManager.Instance.CurrentState == GameStates.BallIdle && Input.GetKeyDown(KeyCode.Space))
+        if (GameManager.instance.state == GameStates.BallIdle && Input.GetKeyDown(KeyCode.Space))
         {
             LaunchBall();
         }
@@ -34,17 +34,31 @@ public class Ball : MonoBehaviour
 
     public void LaunchBall()
     {
-        if (isResetting || !m_Rigidbody) return;
+        if (isResetting || !m_Rigidbody)
+        {
+            Debug.Log("Ball: Cannot launch - ball is resetting or no Rigidbody found");
+            return;
+        }
 
-        Debug.Log("Ball: Launching");
+        Debug.Log("Ball: Launching ball");
+
+        // Ensure we're not kinematic before applying force
         m_Rigidbody.isKinematic = false;
+
+        // Detach from paddle
         transform.SetParent(null);
 
+        // Calculate launch direction
         float randomDirection = UnityEngine.Random.Range(-1.0f, 1.0f);
         Vector3 forceDir = new Vector3(randomDirection, 1, 0).normalized;
+
+        // Apply force
         m_Rigidbody.AddForce(forceDir * launchForce, ForceMode.VelocityChange);
 
-        GameStateManager.Instance.NotifyBallLaunched();
+        // Update game state
+        GameManager.instance.UpdateGameState(GameStates.GameLoop);
+
+        Debug.Log($"Ball: Launched with force {forceDir * launchForce}");
     }
 
     public void ResetBall()

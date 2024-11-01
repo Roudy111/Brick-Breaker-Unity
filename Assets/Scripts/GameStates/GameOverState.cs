@@ -7,23 +7,22 @@ public class GameOverState : MonoBehaviour
     [SerializeField] private GameObject backToMenuButton;
     [SerializeField] private LevelManager levelManager;
 
-    private void Start()
+    private void Awake()
     {
         levelManager = FindObjectOfType<LevelManager>();
     }
 
     public void InitiateGameOver()
     {
-        Debug.Log("GameOverState: Initiating game over sequence");
-        levelManager?.DeleteAllBricks();
+        levelManager.DeleteAllBricks();
         gameOverText.SetActive(true);
         backToMenuButton.SetActive(true);
     }
 
     void Update()
     {
-        if (GameStateManager.Instance.CurrentState == GameStates.GameOver
-            && Input.GetKeyDown(KeyCode.Space))
+        // Only handle restart input if game is over
+        if (GameManager.instance.state == GameStates.GameOver && Input.GetKeyDown(KeyCode.Space))
         {
             RestartGame();
         }
@@ -31,13 +30,11 @@ public class GameOverState : MonoBehaviour
 
     public void RestartGame()
     {
-        Debug.Log("GameOverState: Restarting game");
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void BackToMenu()
     {
-        Debug.Log("GameOverState: Returning to menu");
         SceneManager.LoadScene(0);
     }
 }

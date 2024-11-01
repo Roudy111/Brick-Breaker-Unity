@@ -1,14 +1,17 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DeathZone : MonoBehaviour
 {
+    public GameManager Manager;
+
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.GetComponent<Ball>())
-        {
-            Debug.Log("DeathZone: Ball collision detected");
-            Destroy(other.gameObject);
-            GameStateManager.Instance.NotifyBallDestroyed();
-        }
+        Destroy(other.gameObject);
+        // change the state to GameOver after the collision of the ball wth DeathZone
+        GameManager.instance.UpdateGameState(GameStates.GameOver);
+
     }
 }
