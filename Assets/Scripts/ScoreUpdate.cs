@@ -28,7 +28,7 @@ public class ScoreUpdate : MonoBehaviour
     void UpdateScore(int pointValue)
     {
         ScoreManager.Instance.AddPoints(pointValue);
-        Debug.Log($"Brick destroyed. Points added: {pointValue}");
+        
     }
 
 

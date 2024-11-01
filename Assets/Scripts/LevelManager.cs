@@ -1,140 +1,123 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Collections;
 
 public class LevelManager : MonoBehaviour
 {
-    /// <summary>
-    /// LevelManager handles the game's level progression, brick initialization.
-    /// It follows the Single Responsibility Principle by focusing solely on level-related tasks based on our current level of game development.
-    /// 
-    /// Need to decouple UI after GameState implementation
-    /// </summary>
+    public static int currentLevel { get; private set; } = 1;
 
-    //encapsulation
-    public static int currentLevel { get; private set; } = 1; // the field to track current Level -- always initialzed at 1 
-
-    
+    [Header("UI Components")]
     [SerializeField] private Text LevelText;
 
-    // Number of brick rows to create
+    [Header("Level Settings")]
     [SerializeField] private int LineCount = 6;
-
-    //reference to brick
+    [SerializeField] private float levelTransitionDelay = 5f;
     [SerializeField] private ConcreteBrickFactory brickFactory;
 
-   
-    
+    private bool isChangingLevel = false;
+
     void OnEnable()
     {
-
-        // Subscribes to the LevelFinished event when the script is enabled.
+        Debug.Log("LevelManager: Subscribing to LevelFinished event");
         Counter.LevelFinished += OnLevelFinished;
-
     }
+
     void OnDestroy()
     {
-        // Unsubscribes from the LevelFinished event when the script is destroyed.
+        Debug.Log("LevelManager: Unsubscribing from LevelFinished event");
         Counter.LevelFinished -= OnLevelFinished;
-
     }
+
     void Start()
     {
-       UpdateLevelText();
-
+        UpdateLevelText();
         if (brickFactory == null)
         {
-            Debug.LogError("BrickFactory is not set in BrickManager!");
+            Debug.LogError("LevelManager: BrickFactory not set!");
+            return;
         }
         InitiateBlocks();
-        
     }
 
-    /// <summary>
-    /// Creates a grid of bricks for the current level using the brick factory.
-    /// </summary>
     public void InitiateBlocks()
     {
+        Debug.Log($"LevelManager: Initiating blocks for level {currentLevel}");
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         Counter.m_TotalBrick = 0;
+
         for (int i = 0; i < LineCount; ++i)
         {
             for (int x = 0; x < perLine; ++x)
             {
                 Vector3 position = new(-1.5f + step * x, 2.5f + i * 0.3f, 0);
                 IProduct product = brickFactory.GetProduct(position, Quaternion.identity);
-                if (product is Brick brick)
+                if (product is Brick)
                 {
                     Counter.m_TotalBrick++;
                 }
-                else
-                {
-                    Debug.LogError("Product created is not a Brick!");
-                }
             }
         }
-        Debug.Log($"Total Bricks: {Counter.m_TotalBrick}");
-
+        Debug.Log($"LevelManager: Total Bricks created: {Counter.m_TotalBrick}");
     }
 
-    /// <summary>
-    /// Coroutine to handle the transition to the next level.
-    /// </summary>
     IEnumerator InitiateNextLevel()
     {
-        GameManager.instance.UpdateGameState(GameStates.levelIsChanging);
+        if (isChangingLevel)
+        {
+            Debug.Log("LevelManager: Level change already in progress");
+            yield break;
+        }
 
-        currentLevel++; // Increment level
-        
-        UpdateLevelText(); // Update level text
-        LevelText.gameObject.SetActive(true); // Show level text
+        isChangingLevel = true;
+        Debug.Log($"LevelManager: Starting transition to level {currentLevel + 1}");
 
-        yield return new WaitForSeconds(5f); // Wait for 5 seconds
+        GameManager.instance.UpdateGameState(GameStates.LevelChanging);
+        currentLevel++;
 
-        LevelText.gameObject.SetActive(false); // Hide level text
-        InitiateBlocks(); // Initialize new blocks
-        Debug.Log("About to change state to GameLoop");
+        UpdateLevelText();
+        LevelText.gameObject.SetActive(true);
 
-        Debug.Log($"Current Game State: {GameManager.instance.state} before calling UpdateGameState to GameLoop");
-        GameManager.instance.UpdateGameState(GameStates.gameloop);
+        Debug.Log($"LevelManager: Waiting {levelTransitionDelay} seconds");
+        yield return new WaitForSeconds(levelTransitionDelay);
 
+        LevelText.gameObject.SetActive(false);
+        InitiateBlocks();
 
+        Debug.Log("LevelManager: Level setup complete, returning to BallIdle state");
+        GameManager.instance.UpdateGameState(GameStates.BallIdle);
 
+        isChangingLevel = false;
     }
+
     void UpdateLevelText()
     {
         if (LevelText != null)
         {
             LevelText.text = $"Level {currentLevel}";
+            Debug.Log($"LevelManager: Updated level text to {LevelText.text}");
         }
     }
-    /// <summary>
-    /// Event handler for when a level is completed.
-    /// Initiates the transition to the next level if not already changing levels.
-    /// </summary>
 
     private void OnLevelFinished()
     {
-        
+        Debug.Log("LevelManager: Level finished event received");
+        if (!isChangingLevel)
+        {
             StartCoroutine(InitiateNextLevel());
-        
-
+        }
     }
-    /// <summary>
-    /// Removes all existing bricks from the scene.
-    /// </summary>
+
     public void DeleteAllBricks()
     {
+        Debug.Log("LevelManager: Deleting all bricks");
         Brick[] bricks = FindObjectsOfType<Brick>();
         foreach (var brick in bricks)
         {
             Destroy(brick.gameObject);
         }
         Counter.m_TotalBrick = 0;
+        Debug.Log("LevelManager: All bricks deleted");
     }
-
-   
 }

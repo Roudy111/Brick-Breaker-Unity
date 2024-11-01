@@ -1,97 +1,94 @@
-using UnityEditor;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using System.Collections;
 using System;
-
-
+using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    public GameStates state;
+    public GameStates state { get; private set; }
     public static event Action<GameStates> OnGameStateChanged;
 
-
+    [Header("Game Components")]
     private ScoreManager scoreManager;
     private LevelManager levelManager;
     private GameOverState gameOverState;
     private Ball ball;
 
-    void Start()
-    {
-        scoreManager = ScoreManager.Instance;
-        if (scoreManager == null)
-        {
-            Debug.LogError("ScoreManager not found!");
-            return;
-        }
+    [Header("Game Settings")]
+    [SerializeField] private float levelTransitionDelay = 5f;
+    private bool isTransitioning = false;
 
-        UpdateGameState(GameStates.gameloop);
-    }
-
-
-    public void Awake()
+    void Awake()
     {
         instance = this;
+        InitializeComponents();
+    }
+
+    private void InitializeComponents()
+    {
         levelManager = FindObjectOfType<LevelManager>();
         gameOverState = FindObjectOfType<GameOverState>();
         ball = FindObjectOfType<Ball>();
+        scoreManager = ScoreManager.Instance;
 
-    }
-    public void UpdateGameState(GameStates newstate)
-    {
-        state = newstate;
-        Debug.Log($"Game State Updated: {newstate}");
-
-        switch (newstate)
+        if (!levelManager || !ball || !scoreManager)
         {
-            case GameStates.gameloop:
-                HandleGameLoop();
-                break;
-            case GameStates.levelIsChanging:
-                HandleLevelIschanging();
-                break;
-            case GameStates.gameOver:
-                HandleGameOver();
-                break;
-            default:
-                break;
-        }
-
-        OnGameStateChanged?.Invoke(newstate);
-    }
-
-
-    private void HandleGameLoop()
-    {
-
-    }
-    private void HandleLevelIschanging()
-    {
-       ball.ResetBall();
-
-
-    }
-    private void HandleGameOver()
-    {
-        if (!gameOverState)
-        {
-
-            gameOverState.InitiateGameOver();
+            Debug.LogError("GameManager: Required components missing!");
         }
     }
 
+    void Start()
+    {
+        Debug.Log("GameManager: Starting game");
+        UpdateGameState(GameStates.BallIdle);
+    }
 
+    public void UpdateGameState(GameStates newState)
+    {
+        Debug.Log($"GameManager: Attempting state change from {state} to {newState}");
 
+        // Allow LevelChanging -> BallIdle transition even when transitioning
+        if (isTransitioning && newState != GameStates.GameOver &&
+            !(state == GameStates.LevelChanging && newState == GameStates.BallIdle))
+        {
+            Debug.Log($"GameManager: Blocked state change to {newState} - currently transitioning");
+            return;
+        }
 
+        state = newState;
+        Debug.Log($"GameManager: State changed to {newState}");
+
+        switch (newState)
+        {
+            case GameStates.BallIdle:
+                Debug.Log("GameManager: Handling BallIdle state");
+                if (ball) ball.ResetBall();
+                isTransitioning = false;
+                break;
+
+            case GameStates.GameLoop:
+                Debug.Log("GameManager: Handling GameLoop state");
+                isTransitioning = false;
+                break;
+
+            case GameStates.LevelChanging:
+                Debug.Log("GameManager: Handling LevelChanging state");
+                isTransitioning = true;
+                if (ball) ball.ResetBall();
+                break;
+
+            case GameStates.GameOver:
+                Debug.Log("GameManager: Handling GameOver state");
+                if (gameOverState) gameOverState.InitiateGameOver();
+                break;
+        }
+
+        OnGameStateChanged?.Invoke(newState);
+    }
 }
 public enum GameStates
 {
-    gameloop,
-    levelIsChanging,
-    gameOver,
-
-
+    BallIdle,   // Ball is attached to paddle
+    GameLoop,    // Ball is in play
+    LevelChanging,
+    GameOver
 }

@@ -420,6 +420,7 @@ MonoBehaviour:
   maxVelocity: 3
   accelerationFactor: 0.01
   verticalBias: 0.5
+  launchForce: 2
 --- !u!1 &188020404
 GameObject:
   m_ObjectHideFlags: 0
@@ -509,7 +510,6 @@ GameObject:
   m_Component:
   - component: {fileID: 450625941}
   - component: {fileID: 450625942}
-  - component: {fileID: 450625944}
   - component: {fileID: 450625943}
   m_Layer: 0
   m_Name: GameManager
@@ -545,7 +545,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d110623a642692246a42fbc2d8d89884, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 0
+  levelTransitionDelay: 5
 --- !u!114 &450625943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -561,19 +561,6 @@ MonoBehaviour:
   gameOverText: {fileID: 474497238}
   backToMenuButton: {fileID: 743160540}
   levelManager: {fileID: 1557592277}
---- !u!114 &450625944
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 450625940}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4c9c11c01abccb48a54655e4e57ab19, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Ball: {fileID: 177912862}
 --- !u!1 &455529321
 GameObject:
   m_ObjectHideFlags: 0
@@ -1805,7 +1792,7 @@ MonoBehaviour:
   - {fileID: 8180362683896926288, guid: c96867d5f9146044cb4f93b6fdc7fb2e, type: 3}
   - {fileID: 6482164683343469754, guid: 1a0765c5d4e000a46a9f2064cfeda2cd, type: 3}
   explodingBrickPrefab: {fileID: 1857069994085649251, guid: dc9e873ebdc3ac84a9fec3a4ad6dc781, type: 3}
-  explodingBrickProbability: 0.3
+  explodingBrickProbability: 0.5
 --- !u!4 &1515278649
 Transform:
   m_ObjectHideFlags: 0
