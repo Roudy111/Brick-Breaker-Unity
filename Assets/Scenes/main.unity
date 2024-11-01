@@ -509,7 +509,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 450625941}
-  - component: {fileID: 450625942}
+  - component: {fileID: 450625944}
   - component: {fileID: 450625943}
   m_Layer: 0
   m_Name: GameManager
@@ -533,19 +533,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &450625942
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 450625940}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d110623a642692246a42fbc2d8d89884, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levelTransitionDelay: 5
 --- !u!114 &450625943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -561,6 +548,19 @@ MonoBehaviour:
   gameOverText: {fileID: 474497238}
   backToMenuButton: {fileID: 743160540}
   levelManager: {fileID: 1557592277}
+--- !u!114 &450625944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 450625940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fac6ade0e47a8944c853464e7c982c51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelTransitionDelay: 5
 --- !u!1 &455529321
 GameObject:
   m_ObjectHideFlags: 0
@@ -1360,7 +1360,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee19acfba77e9084fb4ce7ee7ff9e3d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Manager: {fileID: 450625942}
 --- !u!1 &1202661719
 GameObject:
   m_ObjectHideFlags: 0
@@ -1872,8 +1871,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9647c22c1fc3c4f0e9a34cff3ecff697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LevelText: {fileID: 1252187110}
   LineCount: 6
+  LevelText: {fileID: 1252187110}
   brickFactory: {fileID: 1515278648}
 --- !u!4 &1557592278
 Transform:
