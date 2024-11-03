@@ -30,6 +30,7 @@ public class GameLoopState : MonoBehaviour
         if (Ball != null)
         {
             float randomDirection = UnityEngine.Random.Range(-1.0f, 1.0f);
+            // direction should be improved 
             Vector3 forceDir = new(randomDirection, 1, 0);
             forceDir.Normalize();
 
