@@ -34,9 +34,9 @@ public class Counter : MonoBehaviour
     // track the Bricks number and invoke the event of LevelFinished when the all bricks has been destoryed
     void BrickCounter(int point)
     {
-        Debug.Log($"pointValue : {point}");
+       // Debug.Log($"pointValue : {point}");
         m_TotalBrick--;
-        Debug.Log($"Total Brick: {m_TotalBrick}");
+       // Debug.Log($"Total Brick: {m_TotalBrick}");
         if (m_TotalBrick == 0)
         {
             LevelFinished?.Invoke();

@@ -96,9 +96,9 @@ public class LevelManager : MonoBehaviour
 
         LevelText.gameObject.SetActive(false); // Hide level text
         InitiateBlocks(); // Initialize new blocks
-        Debug.Log("About to change state to GameLoop");
+        //Debug.Log("About to change state to GameLoop");
 
-        Debug.Log($"Current Game State: {GameManager.instance.state} before calling UpdateGameState to GameLoop");
+        //Debug.Log($"Current Game State: {GameManager.instance.state} before calling UpdateGameState to GameLoop");
         GameManager.instance.UpdateGameState(GameStates.gameloop);
 
 
