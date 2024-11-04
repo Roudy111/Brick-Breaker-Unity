@@ -29,23 +29,19 @@ public class InputHandler : singleton<InputHandler>
             case GameStates.idle:
                 // Ball attached to paddle, waiting for launch
                 isSpaceEnabled = true;
-                isPaddleMovementEnabled = true;
                 break;
 
             case GameStates.gamePlay:
                 // Ball in motion, playing state
                 isSpaceEnabled = false;
-                isPaddleMovementEnabled = true;
                 break;
 
             case GameStates.levelIsChanging:
                 isSpaceEnabled = false;
-                isPaddleMovementEnabled = false;
                 break;
 
             case GameStates.gameOver:
                 isSpaceEnabled = false;
-                isPaddleMovementEnabled = false;
                 break;
         }
     }
@@ -55,6 +51,7 @@ public class InputHandler : singleton<InputHandler>
         return isSpaceEnabled && Input.GetKeyDown(KeyCode.Space);
     }
 
+// For furthur development. Paddle movement can be disabled during certain states (like levelIsChanging)
     public float GetPaddleMovement()
     {
         return isPaddleMovementEnabled ? Input.GetAxis("Horizontal") : 0f;
