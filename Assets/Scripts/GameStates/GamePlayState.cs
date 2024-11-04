@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameLoopState : MonoBehaviour
+public class GamePlayState : MonoBehaviour
 {
     [SerializeField]
     private Rigidbody Ball;
@@ -15,7 +15,7 @@ public class GameLoopState : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.Space) && GameManager.instance.state == GameStates.gameloop)
+        if (InputHandler.Instance.IsSpaceAllowed() && GameManager.instance.state == GameStates.idle)
         {
             StartGame();
         }
@@ -38,7 +38,7 @@ public class GameLoopState : MonoBehaviour
             Ball.AddForce(forceDir * 2.0f, ForceMode.VelocityChange);
 
             //change to GamePlay state
-            GameManager.instance.UpdateGameState(GameStates.gameloop);
+            GameManager.instance.UpdateGameState(GameStates.gamePlay);
         }
 
     }

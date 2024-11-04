@@ -102,7 +102,7 @@ public class LevelManager : MonoBehaviour
         //Debug.Log("About to change state to GameLoop");
         //Debug.Log($"Current Game State: {GameManager.instance.state} before calling UpdateGameState to GameLoop");
         
-        GameManager.instance.UpdateGameState(GameStates.gameloop);
+        GameManager.instance.UpdateGameState(GameStates.idle);
 
 
 

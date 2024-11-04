@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        UpdateGameState(GameStates.gameloop);
+        UpdateGameState(GameStates.idle);
     }
 
 
@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
 
         switch (newstate)
         {
-            case GameStates.gameloop:
+            case GameStates.gamePlay:
                 HandleGameLoop();
                 break;
             case GameStates.levelIsChanging:
@@ -89,7 +89,8 @@ public class GameManager : MonoBehaviour
 }
 public enum GameStates
 {
-    gameloop,
+    idle,
+    gamePlay,
     levelIsChanging,
     gameOver,
 
