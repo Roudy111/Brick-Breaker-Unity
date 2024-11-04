@@ -1,12 +1,12 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Rendering;
 public class Ball : MonoBehaviour
 {
     private Rigidbody m_Rigidbody;
     private Vector3 initialLocalPosition;
     private Transform paddleTransform;
 
-    [SerializeField] private float maxVelocity = 3.0f;
     [SerializeField] private float accelerationFactor = 0.01f;
     [SerializeField] private float verticalBias = 0.5f;
 
@@ -23,12 +23,15 @@ public class Ball : MonoBehaviour
     {
         // Subscribe to game state changes
         GameManager.OnGameStateChanged += HandleGameStateChanged;
+        ExplodingBrick.BrickExploded += OnBrickExploded;
     }
 
     void OnDestroy()
     {
         // Unsubscribe from game state changes
         GameManager.OnGameStateChanged -= HandleGameStateChanged;
+        ExplodingBrick.BrickExploded -= OnBrickExploded;
+
     }
 
     private void OnCollisionExit(Collision other)
@@ -38,6 +41,31 @@ public class Ball : MonoBehaviour
         {
             AdjustVelocityAfterCollision();
         }
+    }
+
+    // to increase the velocity & speed of the ball when collide with ExplosiveBrick
+    private void OnBrickExploded()
+    {
+        if (m_Rigidbody == null || m_Rigidbody.isKinematic)
+        return;
+
+        // Get current velocity
+        var velocity = m_Rigidbody.velocity;
+        
+        // Add an extra boost to current velocity (30% increase)
+        velocity *= 5;
+        float maxVelocity = 6;
+
+
+        // Ensure we don't exceed maximum velocity
+        if (velocity.magnitude > maxVelocity)
+        {
+            velocity = velocity.normalized * maxVelocity;
+        }
+
+        // Apply the new velocity
+        m_Rigidbody.velocity = velocity;
+
     }
 
     private void AdjustVelocityAfterCollision()
@@ -56,6 +84,7 @@ public class Ball : MonoBehaviour
         {
             velocity += velocity.y > 0 ? Vector3.up * verticalBias : Vector3.down * verticalBias;
         }
+        float maxVelocity = 3f;
 
         // Max velocity
         if (velocity.magnitude > maxVelocity)
@@ -70,14 +99,6 @@ public class Ball : MonoBehaviour
         }
     }
 
-    public void ResetBall()
-    {
-        if (resetCoroutine != null)
-        {
-            StopCoroutine(resetCoroutine);
-        }
-        resetCoroutine = StartCoroutine(ResetBallCoroutine());
-    }
 
     private IEnumerator ResetBallCoroutine()
     {
@@ -106,7 +127,18 @@ public class Ball : MonoBehaviour
             m_Rigidbody.isKinematic = false;
         }
     }
+     public void ResetBall()
+    {
+        if (resetCoroutine != null)
+        {
+            StopCoroutine(resetCoroutine);
+        }
+        resetCoroutine = StartCoroutine(ResetBallCoroutine());
+    }
 
+/// <summary>
+/// Reset the ball to its 
+/// </summary>
     private void HandleGameStateChanged(GameStates newState)
     {
         if (newState == GameStates.levelIsChanging)

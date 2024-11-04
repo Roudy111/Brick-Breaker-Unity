@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class ExplodingBrick : Brick
@@ -11,7 +12,11 @@ public class ExplodingBrick : Brick
     [SerializeField] private LayerMask brickLayer;
     [SerializeField] private AudioClip explosionSFX;
 
+
     private bool hasExploded = false;
+
+    // to notify the ball that explodingBrick has been exploded
+    public static event Action BrickExploded;
     protected override void Start()
     {
         base.Start();
@@ -45,6 +50,7 @@ public class ExplodingBrick : Brick
         if (!IsDestroyed && !hasExploded)
         {
             DestroyBrick();
+            BrickExploded?.Invoke();
  
             
         }
