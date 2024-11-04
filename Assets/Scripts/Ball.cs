@@ -12,21 +12,17 @@ public class Ball : MonoBehaviour
 
     private Coroutine resetCoroutine;
 
-
     void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
         paddleTransform = transform.parent;
         initialLocalPosition = transform.localPosition;
-
-
     }
     
     void OnEnable()
     {
-     // Subscribe to game state changes
+        // Subscribe to game state changes
         GameManager.OnGameStateChanged += HandleGameStateChanged;
-
     }
 
     void OnDestroy()
@@ -37,12 +33,19 @@ public class Ball : MonoBehaviour
 
     private void OnCollisionExit(Collision other)
     {
-        AdjustVelocityAfterCollision();
-
+        // Only adjust velocity if the Rigidbody is not kinematic
+        if (m_Rigidbody != null && !m_Rigidbody.isKinematic)
+        {
+            AdjustVelocityAfterCollision();
+        }
     }
 
     private void AdjustVelocityAfterCollision()
     {
+        // Safety check to ensure we can modify velocity
+        if (m_Rigidbody.isKinematic)
+            return;
+
         var velocity = m_Rigidbody.velocity;
 
         // After a collision we accelerate a bit
@@ -60,9 +63,13 @@ public class Ball : MonoBehaviour
             velocity = velocity.normalized * maxVelocity;
         }
 
-        m_Rigidbody.velocity = velocity;
-
+        // Only set velocity if still not kinematic (double-check for thread safety)
+        if (!m_Rigidbody.isKinematic)
+        {
+            m_Rigidbody.velocity = velocity;
+        }
     }
+
     public void ResetBall()
     {
         if (resetCoroutine != null)
@@ -71,20 +78,23 @@ public class Ball : MonoBehaviour
         }
         resetCoroutine = StartCoroutine(ResetBallCoroutine());
     }
-     private IEnumerator ResetBallCoroutine()
+
+    private IEnumerator ResetBallCoroutine()
     {
+        if (m_Rigidbody != null)
+        {
+            // First, make sure the Rigidbody is not kinematic while we reset velocities
+            m_Rigidbody.isKinematic = false;
+            m_Rigidbody.velocity = Vector3.zero;
+            m_Rigidbody.angularVelocity = Vector3.zero;
+            
+            // Now we can safely make it kinematic
+            m_Rigidbody.isKinematic = true;
+        }
+
         // Reset position relative to paddle
         transform.SetParent(paddleTransform);
         transform.localPosition = initialLocalPosition;
-
-        // Reset all physics-related properties
-        if (m_Rigidbody != null)
-        {
-            m_Rigidbody.velocity = Vector3.zero;
-            m_Rigidbody.angularVelocity = Vector3.zero;
-            m_Rigidbody.Sleep();
-            m_Rigidbody.isKinematic = true;
-        }
 
         // Wait for the specified delay
         yield return new WaitForSeconds(1);
@@ -92,12 +102,10 @@ public class Ball : MonoBehaviour
         // Re-enable physics simulation
         if (m_Rigidbody != null)
         {
-            m_Rigidbody.isKinematic = false;
             m_Rigidbody.WakeUp();
+            m_Rigidbody.isKinematic = false;
         }
     }
-
-    
 
     private void HandleGameStateChanged(GameStates newState)
     {
@@ -105,6 +113,5 @@ public class Ball : MonoBehaviour
         {
             ResetBall();
         }
-
     }
 }
