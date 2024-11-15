@@ -4,19 +4,35 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
+
+/// <summary>
+/// Manages level-related functionality including brick layout, level progression, and level state.
+/// Implements Factory pattern for brick creation and follows Single Responsibility Principle
+/// for level management tasks.
+/// 
+/// Key responsibilities:
+/// - Manages level progression and counting
+/// - Handles brick initialization and layout
+/// - Controls level transition UI and timing
+/// - Manages brick cleanup between levels
+/// 
+/// Design patterns used:
+/// - Factory Pattern for brick creation / to give a base for furthur development possiblites
+/// - Observer Pattern for level completion events
+/// 
+/// Dependencies:
+/// - Requires ConcreteBrickFactory for brick instantiation
+/// - Uses Counter system for brick tracking
+/// - Interfaces with GameManager for state changes
+/// </summary>
 public class LevelManager : MonoBehaviour
 {
-    /// <summary>
-    /// LevelManager handles the game's level progression, brick initialization.
-    /// It follows the Single Responsibility Principle by focusing solely on level-related tasks based on our current level of game development.
-    /// 
-    /// Need to decouple UI after GameState implementation
-    /// </summary>
 
-    //encapsulation
+
+    // Current level number, encapsulated with read-only access
     public static int currentLevel { get; private set; } = 1; // the field to track current Level -- always initialzed at 1 
 
-    
+    // UI element for displaying current level
     [SerializeField] private Text LevelText;
 
     // Number of brick rows to create
@@ -124,7 +140,6 @@ public class LevelManager : MonoBehaviour
         
             StartCoroutine(InitiateNextLevel());
         
-
     }
     /// <summary>
     /// Removes all existing bricks from the scene.
