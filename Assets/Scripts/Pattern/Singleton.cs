@@ -7,7 +7,14 @@ using UnityEngine;
 /// This is a global singleton pattern that uses generic type. 
 /// Game objects that want to be singleton needs to be inherite from this class
 /// DontdestroyonLoad is also implemented -- then the gameobject would be persistence during the different scenes.
-/// </summary>
+/// 
+/// 
+/// /// Note: The lazy instantiation occurs in the Instance property:
+/// 1. First access checks if instance exists
+/// 2. If null, searches for existing component
+/// 3. If not found, creates new GameObject with component
+/// 
+/// 
 /// <typeparam name="T"></typeparam>
 public abstract class singleton<T> : MonoBehaviour where T : Component
 {
