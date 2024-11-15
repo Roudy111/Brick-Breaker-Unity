@@ -7,7 +7,7 @@ public class Counter : MonoBehaviour
 {
     /// <summary>
     /// Count Bricks currently
-    /// can be used for other counting events also 
+    /// can be used also for other counting events  
     /// </summary>
     public static int m_TotalBrick { get; set; } = 0;
     public static event Action LevelFinished;

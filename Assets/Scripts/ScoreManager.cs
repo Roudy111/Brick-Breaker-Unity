@@ -1,9 +1,13 @@
 using UnityEngine;
 using System;
 
+
+/// <summary>
+/// Manages the scoring system, including current score tracking and highscore updates
+/// </summary>
 public class ScoreManager : singleton<ScoreManager>
 {
-
+ 
     public event Action<int> ScoreChanged;
     public event Action HighscoreUpdated;
 
@@ -29,11 +33,15 @@ public class ScoreManager : singleton<ScoreManager>
         ResetScore();
     }
 
+// Adds specified points to the current score
     public void AddPoints(int points)
     {
         CurrentScore += points;
     }
 
+
+// Verifies if the current score qualifies as a new highscore
+// Updates the player's highscore record if conditions are met
     private void CheckHighscoreUpdate()
     {
         if (DataManager.Instance != null)
@@ -45,7 +53,8 @@ public class ScoreManager : singleton<ScoreManager>
             }
         }
     }
-
+// Resets the current score back to zero  
+// Typically called at game start or after game over
     public void ResetScore()
     {
         CurrentScore = 0;
