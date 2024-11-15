@@ -1,7 +1,24 @@
 using UnityEngine;
 
+
+/// <summary>
+/// Basic brick implementation with standard destruction behavior.
+/// 
+/// Key features:
+/// - Simple collision-based destruction
+/// - Basic sound effect on hit
+/// - Standard scoring behavior
+/// 
+/// Design patterns:
+/// - Inheritance: Uses base brick behavior with minimal customization
+/// 
+/// Note: Serves as the standard brick type for normal gameplay progression
+/// </summary>
+
 public class RegularBrick : Brick
 {
+
+    // Click sound effect for destruction
     [SerializeField] private AudioClip clickSFX;
 
     private void PlayClickSound()

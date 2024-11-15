@@ -1,15 +1,43 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+/// Abstract base class for all brick types in the game, implementing Factory pattern.
+/// Provides core brick functionality 
+/// 
+/// Design Patterns:
+/// - Base Class for variation of bricks to inherit from it
+/// - Observer: Broadcasts destruction events to interested listeners
+/// - Factory Product: Implements IProduct for factory creation
+/// 
+/// Key features:
+/// - Abstract class allowing for different brick behaviors
+/// - Event system for destruction notification
+/// - Visual debugging through gizmos 
+/// - Audio system integration
+/// 
+/// Extensibility points:
+/// - Override Initialize() for custom initialization
+/// - Override OnCollisionEnter for custom collision behavior
+/// - Override DestroyBrick for custom destruction effects
+/// </summary>
 public abstract class Brick : MonoBehaviour, IProduct
 {
-    public static event Action<int> BrickDestroyed;
-    public int PointValue;
+    public static event Action<int> BrickDestroyed;  // Event for notifying score and counter systems of brick destruction
+    public int PointValue;  // Score value when brick is destroyed
+
+    // Debug visualization properties
     [SerializeField] protected Color gizmoColor = Color.yellow;
     [SerializeField] protected bool showGizmos = true;
-    protected private AudioSource audioSource;
-    public bool IsDestroyed { get; private set; } = false;
-    public string ProductName { get; set; }
+
+
+    protected private AudioSource audioSource;     // Audio component for sound effects
+    public bool IsDestroyed { get; private set; } = false;   // Prevents multiple destruction calls
+    public string ProductName { get; set; }     // IProduct implementation
+
+    /// <summary>
+    /// Template method for initialization, called by concrete brick types
+    /// </summary>
     public virtual void Initialize()
     {
         SetProductName();
@@ -27,6 +55,8 @@ public abstract class Brick : MonoBehaviour, IProduct
         // Set a default product name, can be overridden in derived classes
         ProductName = "Generic Brick";
     }
+
+    // Handling the Aduio source which is needed for all bricks, then each brick add its own audio clips
     protected virtual void SetupAudioSource()
     {
         audioSource = GetComponent<AudioSource>();
@@ -37,6 +67,7 @@ public abstract class Brick : MonoBehaviour, IProduct
         // Ensure the AudioSource is set up correctly
         audioSource.playOnAwake = false;
     }
+    // Handle the Physic Collision 
     protected virtual void OnCollisionEnter(Collision other)
     {
         if (!IsDestroyed)
@@ -44,6 +75,8 @@ public abstract class Brick : MonoBehaviour, IProduct
             DestroyBrick();
         }
     }
+
+    // Refactored of destruction of Bricks for readibility of codes
     public virtual void DestroyBrick()
     {
         if (!IsDestroyed)
@@ -53,6 +86,8 @@ public abstract class Brick : MonoBehaviour, IProduct
             Destroy(gameObject, 0.1f);
         }
     }
+
+    //Visual Debugging for each Brick -- Should be turend off for release 
     protected virtual void OnDrawGizmosSelected()
     {
         DrawGizmos();

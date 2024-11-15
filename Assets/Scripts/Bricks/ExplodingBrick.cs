@@ -1,22 +1,45 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+/// Specialized brick type that creates chain reactions when destroyed.
+/// Demonstrates inheritance and polymorphism in the brick system.
+/// 
+/// Key features:
+/// - Chain reaction explosion affecting nearby bricks
+/// - Physics-based force application
+/// - Custom destruction effects
+/// - Specialized sound effects
+/// 
+/// Design patterns:
+/// - Observer: Notifies game systems of explosions
+/// - Inherited: Extends base brick behavior
+/// 
+/// Gameplay mechanics:
+/// - Affects other bricks within explosion radius
+/// - Can trigger other exploding bricks
+/// - Applies physical forces to affected objects
+/// </summary>
+
 public class ExplodingBrick : Brick
 {
-    /// <summary>
-    /// Inherited from Brick as a vriaty of the Brick --- information for submission in Unity Junior Programmer
-    /// </summary>
+    // Explosion configuration
     [SerializeField] private float explosionForce = 500f;
     [SerializeField] private float explosionRadius = 1.5f;
     [SerializeField] private float upwardsModifier = 0.4f;
+    // Layer targeting for explosion effects
     [SerializeField] private LayerMask brickLayer;
-    [SerializeField] private AudioClip explosionSFX;
 
 
-    private bool hasExploded = false;
+    [SerializeField] private AudioClip explosionSFX;     // Explosion sound effect
 
-    // to notify the ball that explodingBrick has been exploded
+
+    private bool hasExploded = false;     // Prevents multiple explosions
+
+    // Event to notify the ball that explodingBrick has been exploded
     public static event Action BrickExploded;
+
+
     protected override void Start()
     {
         base.Start();
@@ -75,20 +98,27 @@ public class ExplodingBrick : Brick
 
     }
 
+    /// <summary>
+    /// Applies explosion force to nearby objects and triggers chain reactions
+    /// </summary>
     private void ApplyExplosionForce(bool isInitialExplosion)
     {
+        // Find all colliders within explosion radius
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius, brickLayer);
         foreach (Collider hit in colliders)
         {
+            // Apply physical forces
             Rigidbody rb = hit.GetComponent<Rigidbody>();
             if (rb != null)
             {
                 rb.AddExplosionForce(explosionForce, transform.position, explosionRadius, upwardsModifier);
             }
 
+            // Handle chain reactions
             Brick hitBrick = hit.GetComponent<Brick>();
             if (hitBrick != null && !hitBrick.IsDestroyed)
             {
+                // Special handling for other exploding bricks
                 if (hitBrick is ExplodingBrick explodingBrick)
                 {
                     if (isInitialExplosion)
