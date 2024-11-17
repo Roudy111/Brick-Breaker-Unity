@@ -7,7 +7,6 @@ using UnityEngine;
 /// Key features:
 /// - Simple collision-based destruction
 /// - Basic sound effect on hit
-/// - Standard scoring behavior
 /// 
 /// Design patterns:
 /// - Inheritance: Uses base brick behavior with minimal customization
@@ -21,7 +20,7 @@ public class RegularBrick : Brick
     // Click sound effect for destruction
     [SerializeField] private AudioClip clickSFX;
 
-    private void PlayClickSound()
+    private void PlayRegularBrickSound()
     {
         if (clickSFX != null && audioSource != null)
         {
@@ -35,7 +34,7 @@ public class RegularBrick : Brick
     protected override void OnCollisionEnter(Collision other)
     {
         base.OnCollisionEnter(other);
-        PlayClickSound();
+        PlayRegularBrickSound();
     }
 
 }

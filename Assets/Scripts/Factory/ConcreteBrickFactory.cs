@@ -2,29 +2,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Concrete implementation of the Factory pattern for creating brick game objects.
-/// Demonstrates how the Factory pattern can handle multiple product variants
-/// while maintaining a single point of creation.
-/// 
-/// Key features:
-/// - Creates both regular and exploding bricks
-/// - Handles random brick type selection
-/// - Maintains separation of concerns for brick creation
-/// 
-/// Design considerations:
-/// - Uses probability-based product selection to keep modularity of the levelup process --- If it was supposed to be maintained and developed furthur a in editor interface is needed for design of each level
-/// - Supports multiple regular brick variants
-/// - Demonstrates runtime product type decisions
-/// 
-/// Extensibility points:
-/// - New brick types can be added by extending Brick class
-/// - Additional brick properties can be implemented through interfaces
 /// - Creation logic can be modified without affecting brick behavior
+/// - Maintains separation of concerns for brick creation
+/// - Uses probability-based product selection to keep modularity of the levelup process --- If it was supposed to be maintained and developed furthur a in editor interface is needed for design of each level
+/// - Supports multiple regular brick variants (Deferent in Color and PointValue)
+/// - New brick types can be added by extending Brick class
 /// </summary>
 public class ConcreteBrickFactory : Factory
 {
     // List of regular brick prefabs for variety
-    [SerializeField] private List<RegularBrick> brickPrebafs;
+    [SerializeField] private List<RegularBrick> regularBrickPrebafs;
 
     // Special exploding brick prefab
     [SerializeField] private ExplodingBrick explodingBrickPrefab;
@@ -47,8 +34,8 @@ public class ConcreteBrickFactory : Factory
         else
         {
             // Randomly select from regular brick variants
-            int randomPrefab = Random.Range(0, brickPrebafs.Count);
-            brick = Instantiate(brickPrebafs[randomPrefab], position, rotation);
+            int randomPrefab = Random.Range(0, regularBrickPrebafs.Count);
+            brick = Instantiate(regularBrickPrebafs[randomPrefab], position, rotation);
         }
 
         return brick;

@@ -16,14 +16,10 @@ using UnityEngine;
 /// </summary>
 public interface IProduct
 {
-    /// <summary>
-    /// Identifier for the product type
-    /// </summary>
+
     string ProductName { get; set; }
 
-    /// <summary>
-    /// Initialization method called after product creation
-    /// Each product type can implement custom initialization logic
-    /// </summary>
+
+    // Each product type can implement custom initialization logic
     void Initialize();
 }

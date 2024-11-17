@@ -6,27 +6,20 @@ using UnityEngine;
 /// Provides core brick functionality 
 /// 
 /// Design Patterns:
-/// - Base Class for variation of bricks to inherit from it
 /// - Observer: Broadcasts destruction events to interested listeners
 /// - Factory Product: Implements IProduct for factory creation
 /// 
 /// Key features:
 /// - Abstract class allowing for different brick behaviors
-/// - Event system for destruction notification
 /// - Visual debugging through gizmos 
-/// - Audio system integration
 /// 
-/// Extensibility points:
-/// - Override Initialize() for custom initialization
-/// - Override OnCollisionEnter for custom collision behavior
-/// - Override DestroyBrick for custom destruction effects
 /// </summary>
 public abstract class Brick : MonoBehaviour, IProduct
 {
     public static event Action<int> BrickDestroyed;  // Event for notifying score and counter systems of brick destruction
     public int PointValue;  // Score value when brick is destroyed
 
-    // Debug visualization properties
+    // Debug visualization properties for Debugging
     [SerializeField] protected Color gizmoColor = Color.yellow;
     [SerializeField] protected bool showGizmos = true;
 
@@ -38,17 +31,16 @@ public abstract class Brick : MonoBehaviour, IProduct
     /// <summary>
     /// Template method for initialization, called by concrete brick types
     /// </summary>
-    public virtual void Initialize()
-    {
-        SetProductName();
-        SetupAudioSource();
-    }
+
     protected virtual void Start()
     {
         Initialize();
-   
+    }
 
-
+        public virtual void Initialize()
+    {
+        SetProductName();
+        SetupAudioSource();
     }
      protected virtual void SetProductName()
     {
@@ -86,8 +78,8 @@ public abstract class Brick : MonoBehaviour, IProduct
             Destroy(gameObject, 0.1f);
         }
     }
-
-    //Visual Debugging for each Brick -- Should be turend off for release 
+#region  //Visual Debugging for each Brick -- Should be turend off for release 
+    
     protected virtual void OnDrawGizmosSelected()
     {
         DrawGizmos();
@@ -105,4 +97,5 @@ public abstract class Brick : MonoBehaviour, IProduct
         Gizmos.color = gizmoColor;
         Gizmos.DrawSphere(transform.position, 0.2f);
     }
+#endregion    
 }

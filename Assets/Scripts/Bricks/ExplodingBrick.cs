@@ -7,9 +7,7 @@ using UnityEngine;
 /// 
 /// Key features:
 /// - Chain reaction explosion affecting nearby bricks
-/// - Physics-based force application
-/// - Custom destruction effects
-/// - Specialized sound effects
+/// - Physics-based  explosion force
 /// 
 /// Design patterns:
 /// - Observer: Notifies game systems of explosions
@@ -142,6 +140,7 @@ public class ExplodingBrick : Brick
         }
     }
 
+// visual debugging for showing how much the explosion can affect bricks nearby in editor
     protected override void DrawGizmos()
     {
         base.DrawGizmos();
