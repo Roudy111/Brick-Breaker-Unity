@@ -2064,7 +2064,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fca9f911194aa44bb922f939de3f891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brickPrebafs:
+  regularBrickPrebafs:
   - {fileID: 5622319755512730955, guid: 63f25b9733d2bcd4fa2ff6de1264c739, type: 3}
   - {fileID: 8180362683896926288, guid: c96867d5f9146044cb4f93b6fdc7fb2e, type: 3}
   - {fileID: 6482164683343469754, guid: 1a0765c5d4e000a46a9f2064cfeda2cd, type: 3}
