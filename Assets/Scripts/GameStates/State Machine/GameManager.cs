@@ -1,22 +1,24 @@
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using System.Collections;
 using System;
 
 /// <summary>
+/// 
 /// Core manager class that handles the game's state machine.
-/// 
-/// Key responsibilities:
-/// - Manages game state transitions (idle, gameplay, level changing, game over)
-/// - Coordinates between ScoreManager, LevelManager, and other subsystems
+/// - Manages game state transitions (idle, gameplay, level changing, game over) 
+/// - Other classes reference this class to change the game state
 /// - Broadcasts state changes to other components through events
-/// 
-/// Dependencies:
-/// - Requires ScoreManager, LevelManager, GameOverState, and Ball components
 /// - Uses event system for state change notifications
+/// 
 /// </summary>
+
+public enum GameStates
+{
+    idle,
+    gamePlay,
+    levelIsChanging,
+    gameOver,
+
+}
 
 public class GameManager : MonoBehaviour
 {
@@ -30,7 +32,6 @@ public class GameManager : MonoBehaviour
         // Set initial game state to idle, waiting for player input
         UpdateGameState(GameStates.idle);
     }
-
 
     public void Awake()
     {
@@ -49,12 +50,4 @@ public class GameManager : MonoBehaviour
     }
 
 }
-public enum GameStates
-{
-    idle,
-    gamePlay,
-    levelIsChanging,
-    gameOver,
 
-
-}

@@ -13,20 +13,17 @@ public class InputHandler : singleton<InputHandler>
     /// <summary>
     /// Handles input detection and validation for the game controls
     /// </summary>
-    private bool isPaddleMovementEnabled = true;
 
-    /// <summary>
-    /// Subscribes to game state change events when the component is enabled
-    /// </summary>
+
+
+    // Subscribes to game state change events when the component is enabled
+
     private void OnEnable()
     {
         GameManager.OnGameStateChanged += HandleGameStateChanged;
     }
+    // Unsubscribes to game state change events for preventing meory leaks
 
-    /// <summary>
-    /// Unsubscribes from game state change events when the component is disabled
-    /// to prevent memory leaks
-    /// </summary>
     private void OnDisable()
     {
         GameManager.OnGameStateChanged -= HandleGameStateChanged;
@@ -71,12 +68,5 @@ public class InputHandler : singleton<InputHandler>
         return isSpaceEnabled && Input.GetKeyDown(KeyCode.Space);
     }
 
-    /// <summary>
-    /// Paddle movement can be toggled during specific game states
-    /// such as level transitions or game over sequences
-    /// </summary>
-    public float GetPaddleMovement()
-    {
-        return isPaddleMovementEnabled ? Input.GetAxis("Horizontal") : 0f;
-    }
+
 }

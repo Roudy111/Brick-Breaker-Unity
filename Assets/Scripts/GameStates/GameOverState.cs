@@ -4,19 +4,14 @@ using UnityEngine.SceneManagement;
 
 
 /// <summary>
-/// Handles the game over state logic and UI presentation.
-/// Responsible for managing end-game scenarios and providing options to restart or return to menu.
 /// 
 /// Key responsibilities:
 /// - Displays game over UI elements
-/// - Handles restart input (Space key)
-/// - Manages level cleanup through LevelManager
-/// - Provides navigation options (restart/menu)
+/// - Manages level cleanup (destroying bricks) on game over
+/// - Provides navigation options (restart/menu) for the player on game over
 /// 
 /// Dependencies:
 /// - Requires GameManager for state management
-/// - Needs LevelManager for brick cleanup
-/// - Uses Unity UI system for displaying game over elements
 /// </summary>
 public class GameOverState : MonoBehaviour
 {
@@ -52,6 +47,8 @@ public class GameOverState : MonoBehaviour
             RestartGame();
         }
     }
+
+    // DeathZone Change the state to gameOver, then this method check if the state is gameover and call methods for gameover
     private void HandleGameStateChanged(GameStates newState)
     {
         if (newState == GameStates.gameOver)

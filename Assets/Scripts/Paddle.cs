@@ -4,25 +4,18 @@ using Unity.Mathematics;
 using UnityEngine;
 
 /// <summary>
-/// Controls the player's paddle movement and boundaries in the game
+/// Controls the player's paddle movement and boundaries in the game for it's horizontal movement
 /// </summary>
 public class Paddle : MonoBehaviour
 {
-    /// <summary>
-    /// Movement speed of the paddle
-    /// </summary>
-    [SerializeField] 
-    private float Speed = 2.0f;
 
-    /// <summary>
-    /// Maximum horizontal distance the paddle can move from center (in world units)
-    /// </summary>
-    [SerializeField]
-    private float MaxMovement = 1.9f;
+    // Movement speed of the paddle
+    [SerializeField]  private float Speed = 2.0f;
 
-    /// <summary>
-    /// Processes paddle movement input every frame
-    /// </summary>
+    // Maximum horizontal distance the paddle can move from center (in world units)
+    [SerializeField] private float MaxMovement = 1.9f;
+
+    // Processes paddle movement input every frame
     private void Update()
     {
         HandlePlayerControl();

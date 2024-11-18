@@ -7,30 +7,28 @@ using System.IO;
 /// Manages persistent storage and retrieval of player highscores
 /// 
 /// Key responsibilities:
-/// - Maintains sorted leaderboard of top player scores
+/// - Maintains sorted leaderboard of top player scores with List because faster Insertation than array
 /// - Handles JSON serialization for persistent storage
-/// - Manages player score updates and additions
 /// - Provides formatted data for UI display
-/// - Implements thread-safe file operations
+/// - thread-safe file operations
 /// 
 /// Implementation details:
 /// - Singleton pattern for global access
 /// - Maximum of 3 highscores stored - which can be changed by modifying the MaxHighscores constant
 /// - Uses Unity's persistent data path
-/// - JSON-based file storage
 /// </summary>
 public class DataManager : singleton<DataManager>
 {
     public string currentPlayerId { get; set; }     // Identifier for the current active player
-    private List<HighscoreEntry> highscores = new List<HighscoreEntry>(); // Collection of all recorded highscores
+    private List<HighscoreEntry> highscores = new List<HighscoreEntry>(); // Collection of all recorded highscores 
+
     private const int MaxHighscores = 3;     // Maximum number of highscores to maintain in the leaderboard
     private const string SaveFileName = "highscoreList.json";     /// Filename for persistent storage of highscores
 
 
-/// <summary>
-/// Represents a single highscore entry with player name and score
-/// Serializable to enable JSON persistence
-/// </summary>
+
+// Represents a single highscore entry with player name and score
+// Serializable to enable JSON persistence
     [System.Serializable]
     public class HighscoreEntry
     {
@@ -38,10 +36,9 @@ public class DataManager : singleton<DataManager>
         public int score;
     }
 
-/// <summary>
-/// Wrapper class for serializing the complete highscore list
-/// Used for JSON conversion during save/load operations
-/// </summary>   
+
+// Wrapper class for serializing the complete highscore list
+// Used for JSON conversion during save/load operations
 
     [System.Serializable]
     private class SaveData
@@ -54,12 +51,8 @@ public class DataManager : singleton<DataManager>
         base.Awake();
         LoadHighscores();
     }
-/// <summary>
-/// Adds a new highscore or updates existing score for a player
-/// </summary>
-/// <param name="playerName">Name of the player</param>
-/// <param name="score">Score achieved by the player</param>
-/// <returns>True if highscore was added or updated, false otherwise</returns>
+
+// Adds a new highscore or updates existing score for a player
     public bool AddOrUpdateHighscore(string playerName, int score)
     {
         bool updated = false;
@@ -103,10 +96,9 @@ public class DataManager : singleton<DataManager>
         return updated;
     }
 
-   /// <summary>
-/// Saves the current highscore list to persistent storage
-/// Called after new highscores are added or updated
-/// </summary>
+// Saves the current highscore list to persistent storage
+// Called after new highscores are added or updated
+
 
     private void SaveHighscores()
     {
@@ -114,10 +106,10 @@ public class DataManager : singleton<DataManager>
         string json = JsonUtility.ToJson(saveData);
         File.WriteAllText(GetSaveFilePath(), json);
     }
-/// <summary>
-/// Loads saved highscores from disk when game initializes
-/// Creates empty highscore list if save file doesn't exist
-/// </summary>
+
+// Loads saved highscores from disk when game initializes
+// Creates empty highscore list if save file doesn't exist
+
     private void LoadHighscores()
     {
         string path = GetSaveFilePath();
@@ -128,20 +120,19 @@ public class DataManager : singleton<DataManager>
             highscores = saveData.highscores;
         }
     }
-/// <summary>
-/// Constructs the full path for the highscores save file
-/// Uses Unity's persistent data path for cross-platform compatibility
-/// <returns>Complete file path for highscores storage</returns>
+
+// Constructs the full path for the highscores save file
+// Uses Unity's persistent data path for cross-platform compatibility
+
     private string GetSaveFilePath()
     {
         return Path.Combine(Application.persistentDataPath, SaveFileName);
     }
 
-/// <summary>
-/// Creates a formatted string of all highscores for UI display
-/// Called by UI elements to show the highscore leaderboard
-/// </summary>
-/// <returns>Numbered list of player names and scores</returns>
+
+// Creates a formatted string of all highscores for UI display
+// Called by UI elements to show the highscore leaderboard
+// returns numbered list of player names and scores
     public string GetFormattedHighscores()
     {
         string formattedHighscores = "";
@@ -152,10 +143,9 @@ public class DataManager : singleton<DataManager>
         return formattedHighscores.TrimEnd('\n');
     }
 
-/// <summary>
-/// Sorts highscores in descending order
-/// Called after new scores are added via ScoreManager
-/// </summary>
+
+// Sorts highscores in descending order
+// Called after new scores are added via ScoreManager
     private void SortHighscores()
     {
         highscores.Sort((a, b) => b.score.CompareTo(a.score));

@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Counter : MonoBehaviour
@@ -19,8 +17,6 @@ public class Counter : MonoBehaviour
         // subscribe to bricks destruction event for couting the Bricks 
 
         Brick.BrickDestroyed += BrickCounter;
-
-
 
     }
 
