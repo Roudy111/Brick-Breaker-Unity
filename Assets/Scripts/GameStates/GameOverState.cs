@@ -24,7 +24,7 @@ public class GameOverState : MonoBehaviour
     // UI elements for game over state
     [SerializeField] private GameObject gameOverText;
     [SerializeField] private GameObject backToMenuButton;
-    [SerializeField] private LevelManager levelManager;
+
     //for managing the input for Restartgame in update method instead of using new Input System which is overkill for this simple game
     private bool IsGameOver = false;    // Tracks if game is in game over state to handle restart input
   
@@ -33,8 +33,7 @@ public class GameOverState : MonoBehaviour
     {
         // Subscribe to game state changes to detect game over condition
         GameManager.OnGameStateChanged += HandleGameStateChanged;
-        //reference to LevelManager
-        levelManager = FindObjectOfType<LevelManager>();
+
         
     }
 
@@ -58,6 +57,7 @@ public class GameOverState : MonoBehaviour
         if (newState == GameStates.gameOver)
         {
             InitiateGameOver();
+
         }
     }
 
@@ -65,7 +65,7 @@ public class GameOverState : MonoBehaviour
     public void InitiateGameOver()
     {
         IsGameOver = true;
-        levelManager.DeleteAllBricks();
+        DeleteBricks();
         gameOverText.SetActive(true);
         backToMenuButton.SetActive(true);
         // You might want to call a method to update and display the high score here
@@ -87,6 +87,16 @@ public class GameOverState : MonoBehaviour
     public void BackToMenu()
     {
         SceneManager.LoadScene(0); // Assuming 0 is your menu scene index
+    }
+
+     public void DeleteBricks()
+    {
+        Brick[] bricks = FindObjectsOfType<Brick>();
+        foreach (var brick in bricks)
+        {
+            Destroy(brick.gameObject);
+        }
+        Counter.m_TotalBrick = 0;
     }
 
 }

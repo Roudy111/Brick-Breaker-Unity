@@ -145,20 +145,5 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-
-
-    /// <summary>
-    /// Removes all existing bricks from the scene.
-    /// </summary>
-    public void DeleteAllBricks()
-    {
-        Brick[] bricks = FindObjectsOfType<Brick>();
-        foreach (var brick in bricks)
-        {
-            Destroy(brick.gameObject);
-        }
-        Counter.m_TotalBrick = 0;
-    }
-
    
 }

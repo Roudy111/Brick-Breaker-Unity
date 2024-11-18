@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
 
 // References to dependencies
     
-    private GameOverState gameOverState;
+
 
 
     void Start()
@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
     public void Awake()
     {
         instance = this;
-        gameOverState = FindObjectOfType<GameOverState>();
+
 
 
     }
@@ -54,9 +54,7 @@ public class GameManager : MonoBehaviour
         {
             case GameStates.gamePlay:
                 break;
-            case GameStates.gameOver:
-                HandleGameOver();
-                break;
+
             default:
                 break;
         }
@@ -67,14 +65,7 @@ public class GameManager : MonoBehaviour
 
 
 
-    private void HandleGameOver()
-    {
-        if (!gameOverState)
-        {
 
-            gameOverState.InitiateGameOver();
-        }
-    }
 
 
 
