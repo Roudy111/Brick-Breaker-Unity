@@ -24,10 +24,6 @@ public class GameManager : MonoBehaviour
     public GameStates state;
     public static event Action<GameStates> OnGameStateChanged;
 
-// References to dependencies
-    
-
-
 
     void Start()
     {
@@ -39,36 +35,18 @@ public class GameManager : MonoBehaviour
     public void Awake()
     {
         instance = this;
-
-
-
     }
 
     //State machine for game states that has been defined in enum.
+    // Handle of gameState has been distrubuted to different classes because it could be overkilled for such a simple game
     public void UpdateGameState(GameStates newstate)
     {
         state = newstate;
         Debug.Log($"Game State Updated: {newstate}");
 
-        switch (newstate)
-        {
-            case GameStates.gamePlay:
-                break;
-
-            default:
-                break;
-        }
         // Notify all subscribers about the state change
         OnGameStateChanged?.Invoke(newstate);
     }
-
-
-
-
-
-
-
-
 
 }
 public enum GameStates

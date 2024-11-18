@@ -89,6 +89,7 @@ public class GameOverState : MonoBehaviour
         SceneManager.LoadScene(0); // Assuming 0 is your menu scene index
     }
 
+    // Destroys all bricks in the scene to clean up the level in Game Over state
      public void DeleteBricks()
     {
         Brick[] bricks = FindObjectsOfType<Brick>();
