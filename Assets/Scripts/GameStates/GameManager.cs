@@ -26,9 +26,8 @@ public class GameManager : MonoBehaviour
 
 // References to dependencies
     
-    private LevelManager levelManager;
     private GameOverState gameOverState;
-    private Ball ball;
+
 
     void Start()
     {
@@ -40,9 +39,8 @@ public class GameManager : MonoBehaviour
     public void Awake()
     {
         instance = this;
-        levelManager = FindObjectOfType<LevelManager>();
         gameOverState = FindObjectOfType<GameOverState>();
-        ball = FindObjectOfType<Ball>();
+
 
     }
 
@@ -56,9 +54,6 @@ public class GameManager : MonoBehaviour
         {
             case GameStates.gamePlay:
                 break;
-            case GameStates.levelIsChanging:
-                HandleLevelIschanging();
-                break;
             case GameStates.gameOver:
                 HandleGameOver();
                 break;
@@ -71,11 +66,7 @@ public class GameManager : MonoBehaviour
 
 
 
-    private void HandleLevelIschanging()
-    {
-       ball.ResetBall();
 
-    }
     private void HandleGameOver()
     {
         if (!gameOverState)

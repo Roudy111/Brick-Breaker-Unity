@@ -41,6 +41,8 @@ public class LevelManager : MonoBehaviour
     //reference to brick
     [SerializeField] private ConcreteBrickFactory brickFactory;
 
+    private Ball ball;
+
    
     
     void OnEnable()
@@ -65,9 +67,11 @@ public class LevelManager : MonoBehaviour
             Debug.LogError("BrickFactory is not set in BrickManager!");
         }
         InitiateBlocks();
-        
+        // reference to ball object
+        ball = FindObjectOfType<Ball>();
+
     }
-    
+
     /// <summary>
     /// Event handler for when a level is completed.
     /// Initiates the transition to the next level if not already changing levels.
@@ -84,7 +88,7 @@ public class LevelManager : MonoBehaviour
     IEnumerator InitiateNextLevel()
     {
         GameManager.instance.UpdateGameState(GameStates.levelIsChanging);
-
+        ball.ResetBall(); // Reset ball position
         currentLevel++; // Increment level
         
         UpdateLevelText(); // Update level text
