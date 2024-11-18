@@ -67,6 +67,41 @@ public class LevelManager : MonoBehaviour
         InitiateBlocks();
         
     }
+    
+    /// <summary>
+    /// Event handler for when a level is completed.
+    /// Initiates the transition to the next level if not already changing levels.
+    /// </summary>
+    private void OnLevelFinished()
+    {
+        
+            StartCoroutine(InitiateNextLevel());
+        
+    }
+    /// <summary>
+    /// Coroutine to handle the transition to the next level.
+    /// </summary>
+    IEnumerator InitiateNextLevel()
+    {
+        GameManager.instance.UpdateGameState(GameStates.levelIsChanging);
+
+        currentLevel++; // Increment level
+        
+        UpdateLevelText(); // Update level text
+
+        LevelText.gameObject.SetActive(true); // Show level text
+
+        yield return new WaitForSeconds(5f); // Wait for 5 seconds
+
+        LevelText.gameObject.SetActive(false); // Hide level text
+
+        InitiateBlocks(); // Initialize new blocks
+
+        //Debug.Log("About to change state to GameLoop");
+        //Debug.Log($"Current Game State: {GameManager.instance.state} before calling UpdateGameState to GameLoop");
+        
+        GameManager.instance.UpdateGameState(GameStates.idle);
+    }
 
     /// <summary>
     /// Creates a grid of bricks for the current level using the brick factory.
@@ -96,33 +131,8 @@ public class LevelManager : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Coroutine to handle the transition to the next level.
-    /// </summary>
-    IEnumerator InitiateNextLevel()
-    {
-        GameManager.instance.UpdateGameState(GameStates.levelIsChanging);
-
-        currentLevel++; // Increment level
-        
-        UpdateLevelText(); // Update level text
-
-        LevelText.gameObject.SetActive(true); // Show level text
-
-        yield return new WaitForSeconds(5f); // Wait for 5 seconds
-
-        LevelText.gameObject.SetActive(false); // Hide level text
-
-        InitiateBlocks(); // Initialize new blocks
-
-        //Debug.Log("About to change state to GameLoop");
-        //Debug.Log($"Current Game State: {GameManager.instance.state} before calling UpdateGameState to GameLoop");
-        
-        GameManager.instance.UpdateGameState(GameStates.idle);
 
 
-
-    }
     void UpdateLevelText()
     {
         if (LevelText != null)
@@ -130,17 +140,9 @@ public class LevelManager : MonoBehaviour
             LevelText.text = $"Level {currentLevel}";
         }
     }
-    /// <summary>
-    /// Event handler for when a level is completed.
-    /// Initiates the transition to the next level if not already changing levels.
-    /// </summary>
 
-    private void OnLevelFinished()
-    {
-        
-            StartCoroutine(InitiateNextLevel());
-        
-    }
+
+
     /// <summary>
     /// Removes all existing bricks from the scene.
     /// </summary>

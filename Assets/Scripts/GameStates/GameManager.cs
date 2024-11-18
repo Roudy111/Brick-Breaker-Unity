@@ -25,20 +25,13 @@ public class GameManager : MonoBehaviour
     public static event Action<GameStates> OnGameStateChanged;
 
 // References to dependencies
-    private ScoreManager scoreManager;
+    
     private LevelManager levelManager;
     private GameOverState gameOverState;
     private Ball ball;
 
     void Start()
     {
-        // Initialize score management system
-        scoreManager = ScoreManager.Instance;
-        if (scoreManager == null)
-        {
-            Debug.LogError("ScoreManager not found!");
-            return;
-        }
         // Set initial game state to idle, waiting for player input
         UpdateGameState(GameStates.idle);
     }
