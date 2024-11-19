@@ -18,7 +18,6 @@ public class ScoreUpdate : MonoBehaviour
     void OnDisable()
     {
         // Unsubscribe to event
-
         Brick.BrickDestroyed -= UpdateScore;
 
     }

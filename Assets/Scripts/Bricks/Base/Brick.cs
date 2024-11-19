@@ -37,12 +37,12 @@ public abstract class Brick : MonoBehaviour, IProduct
         Initialize();
     }
 
-        public virtual void Initialize()
+    public virtual void Initialize()
     {
         SetProductName();
         SetupAudioSource();
     }
-     protected virtual void SetProductName()
+    protected virtual void SetProductName()
     {
         // Set a default product name, can be overridden in derived classes
         ProductName = "Generic Brick";

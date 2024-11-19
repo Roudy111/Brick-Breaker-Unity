@@ -59,7 +59,7 @@ public class GameOverState : MonoBehaviour
     }
 
     // Shows game over UI and cleans up level
-    public void InitiateGameOver()
+    private void InitiateGameOver()
     {
         IsGameOver = true;
         DeleteBricks();
