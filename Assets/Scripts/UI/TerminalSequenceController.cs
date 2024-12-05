@@ -78,12 +78,12 @@ public class TerminalSequenceController : MonoBehaviour
         }
 
         // Configure main text
-        mainText.alignment = TextAlignmentOptions.Center;
-        mainText.enableWordWrapping = true;
+        //mainText.alignment = TextAlignmentOptions.Center;
+        //mainText.enableWordWrapping = true;
         
         // Configure system details text
         systemDetailsText.alignment = TextAlignmentOptions.Left;
-        systemDetailsText.fontSize = 12;
+        systemDetailsText.fontSize = 24;
         systemDetailsText.alpha = 0.5f;
 
         skipButton.gameObject.SetActive(false);
