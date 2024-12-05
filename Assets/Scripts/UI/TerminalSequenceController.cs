@@ -67,6 +67,8 @@ public class TerminalSequenceController : MonoBehaviour
         Debug.Log("Starting sequence...");
         SetupUI();
         StartSequence();
+        CheckTextVisibility();
+        EnsureTextVisibility();
     }
 
     private void SetupUI()
@@ -105,6 +107,43 @@ public class TerminalSequenceController : MonoBehaviour
         Debug.Log($"Starting sequence with {introSequences.Length} scenes");
         PlayNextScene();
     }
+    void CheckTextVisibility()
+{
+    // Verify TextMeshPro component reference
+    if (mainText == null)
+    {
+        Debug.LogError("mainText reference is missing!");
+        return;
+    }
+
+    // Check core visibility settings
+    Debug.Log($"Alpha: {mainText.alpha}");
+    Debug.Log($"Enabled: {mainText.enabled}");
+    Debug.Log($"GameObject active: {mainText.gameObject.activeInHierarchy}");
+    Debug.Log($"Color: {mainText.color}");
+}
+
+void EnsureTextVisibility()
+{
+    // Make text fully visible
+    mainText.alpha = 1f;
+    mainText.color = new Color(mainText.color.r, mainText.color.g, mainText.color.b, 1f);
+    
+    // Ensure GameObject hierarchy is active
+    mainText.gameObject.SetActive(true);
+    
+    // Verify parent Canvas
+    Canvas parentCanvas = mainText.GetComponentInParent<Canvas>();
+    if (parentCanvas != null)
+    {
+        parentCanvas.gameObject.SetActive(true);
+    }
+    
+    // Set test text
+    mainText.text = "Test Message";
+}
+
+    
 
     private void PlayNextScene()
     {
