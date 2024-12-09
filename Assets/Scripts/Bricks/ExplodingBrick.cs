@@ -30,6 +30,7 @@ public class ExplodingBrick : Brick
 
 
     [SerializeField] private AudioClip explosionSFX;     // Explosion sound effect
+    [SerializeField] private ParticleSystem explosionVFX; // Explosion visual effect
 
 
     private bool hasExploded = false;     // Prevents multiple explosions
@@ -57,6 +58,18 @@ public class ExplodingBrick : Brick
         else
         {
             Debug.LogError("Failed to play explosion sound. AudioClip or AudioSource is missing.");
+        }
+    }
+
+    private void PlayExplosionVFX()
+    {
+        if (explosionVFX != null)
+        {
+            Instantiate(explosionVFX, transform.position,explosionVFX.transform.rotation);
+        }
+        else
+        {
+            Debug.LogError("Failed to play explosion VFX. ParticleSystem is missing.");
         }
     }
 
@@ -93,6 +106,7 @@ public class ExplodingBrick : Brick
         hasExploded = true;
         ApplyExplosionForce(true);
         PlayExplosionSound();
+        PlayExplosionVFX();
 
     }
 

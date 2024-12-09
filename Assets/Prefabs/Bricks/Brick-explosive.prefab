@@ -253,3 +253,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   explosionSFX: {fileID: 8300000, guid: 4dc19392607937646bd5f5aacefd529f, type: 3}
+  explosionVFX: {fileID: 8194992990867289333, guid: a80b652723caffa4297c61f3ee85e2a4, type: 3}
