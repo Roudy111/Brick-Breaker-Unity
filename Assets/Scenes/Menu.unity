@@ -365,7 +365,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 11}
+  m_AnchoredPosition: {x: 559, y: -359}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &192080012
@@ -566,38 +566,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 321089255}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7a756d48103e4147bc066644665d4f2, type: 3}
+  m_Script: {fileID: 11500000, guid: a739c68cc074a4b38858b5fb5b4d12aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainText: {fileID: 1831832683}
-  systemDetailsText: {fileID: 1009648888}
-  skipButton: {fileID: 192080014}
-  initializeButton: {fileID: 771791360}
-  gridOverlay: {fileID: 0}
-  scanLineOverlay: {fileID: 0}
+  typingSpeed: 0.05
   defaultTextColor: {r: 0, g: 1, b: 0, a: 1}
-  typingSpeed: 0.1
-  glitchDuration: 0.5
-  sceneDelay: 1
-  introSequences:
-  - text: NEO-TOKYO, 2099
-    textColor: {r: 1, g: 0, b: 0, a: 0}
-    fontSize: 36
-  - text: The digital walls have eyes.
-    textColor: {r: 1, g: 0, b: 0, a: 0}
-    fontSize: 24
-  - text: Every piece of data is monitored, controlled, encrypted by the Megacorps.
-    textColor: {r: 1, g: 0, b: 0, a: 0}
-    fontSize: 24
-  - text: But they can't stop what they can't see.
-    textColor: {r: 1, g: 0, b: 0, a: 0}
-    fontSize: 28
-  - text: 'INITIATING SEQUENCE: NEON BREACH'
-    textColor: {r: 1, g: 0, b: 0, a: 0}
-    fontSize: 42
-  - text: 'INITIATING SEQUENCE: NEON BREACH'
-    textColor: {r: 1, g: 0, b: 0, a: 0}
-    fontSize: 42
+  bootSequence:
+  - text: '> SYSTEM BOOT...'
+    isWarning: 0
+    textColor: {r: 0, g: 1, b: 0, a: 1}
+  - text: '> NEURAL LINK ESTABLISHED'
+    isWarning: 0
+    textColor: {r: 0, g: 1, b: 0, a: 1}
+  - text: '> SCANNING FOR NEURAL IMPRINTS...'
+    isWarning: 0
+    textColor: {r: 0, g: 1, b: 0, a: 1}
+  - text: '> WARNING: FRAGMENTED MEMORY DETECTED'
+    isWarning: 1
+    textColor: {r: 0, g: 1, b: 0, a: 1}
+  firstContactMessage: '> OPERATOR: Are you still there? We''ve been waiting...'
+  responses:
+  - '> OPERATOR: Thank god. We thought we lost you in the last neural dive.'
+  - '> OPERATOR: Of course not. They wiped you clean. But somewhere inside, you remember.'
 --- !u!1 &340104877
 GameObject:
   m_ObjectHideFlags: 0
@@ -2988,7 +2979,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: SKIP
 --- !u!222 &2056881808
 CanvasRenderer:
   m_ObjectHideFlags: 0
