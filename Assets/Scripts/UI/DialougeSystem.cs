@@ -23,7 +23,8 @@ public class DialogueSystem : MonoBehaviour
         public Color TextColor => isWarning ? Color.red : textColor;
     }
 
-    [SerializeField] private TextMeshProUGUI mainText;
+    [SerializeField] private TextMeshProUGUI bootMessagesText; // For boot sequence messages
+    [SerializeField] private TextMeshProUGUI operatorText;     // Separate text for operator messages
     [SerializeField] private float typingSpeed = 0.05f;
     [SerializeField] private Color defaultTextColor = Color.green;
 
@@ -38,31 +39,28 @@ public class DialogueSystem : MonoBehaviour
 
     [Header("First Contact")]
     [SerializeField] private string firstContactMessage = "> OPERATOR: Are you still there? We've been waiting...";
-    [SerializeField] private string[] responses = new string[]
-    {
-        "> OPERATOR: Thank god. We thought we lost you in the last neural dive.",
-        "> OPERATOR: Of course not. They wiped you clean. But somewhere inside, you remember."
-    };
 
-    private List<DialogueMessage> messageHistory = new List<DialogueMessage>();
+    private List<DialogueMessage> bootMessageHistory = new List<DialogueMessage>();
     private bool isTyping = false;
 
     private void Start()
     {
-        if (mainText != null)
+        if (bootMessagesText != null && operatorText != null)
         {
-            mainText.color = defaultTextColor;
-            mainText.text = "";
+            bootMessagesText.color = defaultTextColor;
+            bootMessagesText.text = "";
+            operatorText.color = defaultTextColor;
+            operatorText.text = "";
             StartCoroutine(PlaySequence());
         }
     }
 
     private IEnumerator PlaySequence()
     {
-        // Play boot sequence
+        // Play boot sequence in the boot messages area
         foreach (var message in bootSequence)
         {
-            yield return StartCoroutine(TypeMessage(new DialogueMessage 
+            yield return StartCoroutine(TypeBootMessage(new DialogueMessage 
             { 
                 text = message.text,
                 color = message.TextColor
@@ -70,53 +68,51 @@ public class DialogueSystem : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
 
-        // Show first contact
+        // Show operator message in its own text area
         yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(TypeMessage(new DialogueMessage 
-        { 
-            text = firstContactMessage,
-            color = defaultTextColor
-        }));
-
-        // Show final message (for demo, using first response)
-        yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(TypeMessage(new DialogueMessage 
-        { 
-            text = responses[0],
-            color = defaultTextColor
-        }));
+        yield return StartCoroutine(TypeOperatorMessage(firstContactMessage));
     }
 
-    private void AddMessageToHistory(DialogueMessage message)
-    {
-        messageHistory.Add(message);
-        UpdateDisplay();
-    }
-
-    private void UpdateDisplay()
+    private void UpdateBootDisplay()
     {
         string fullText = "";
-        foreach (var msg in messageHistory)
+        foreach (var msg in bootMessageHistory)
         {
             if (msg.isVisible)
             {
                 fullText += $"<color=#{ColorUtility.ToHtmlStringRGB(msg.color)}>{msg.text}</color>\n";
             }
         }
-        mainText.text = fullText.TrimEnd('\n') + "<color=#00ff00>_</color>";
+        bootMessagesText.text = fullText.TrimEnd('\n') + "<color=#00ff00>_</color>";
     }
 
-    private IEnumerator TypeMessage(DialogueMessage message)
+    private IEnumerator TypeBootMessage(DialogueMessage message)
     {
         isTyping = true;
         string originalText = message.text;
         message.text = "";
-        AddMessageToHistory(message);
+        bootMessageHistory.Add(message);
 
         foreach (char c in originalText)
         {
             message.text += c;
-            UpdateDisplay();
+            UpdateBootDisplay();
+            yield return new WaitForSeconds(typingSpeed);
+        }
+
+        isTyping = false;
+    }
+
+    private IEnumerator TypeOperatorMessage(string message)
+    {
+        isTyping = true;
+        string currentText = "";
+        operatorText.text = "";
+
+        foreach (char c in message)
+        {
+            currentText += c;
+            operatorText.text = currentText + "<color=#00ff00>_</color>";
             yield return new WaitForSeconds(typingSpeed);
         }
 
