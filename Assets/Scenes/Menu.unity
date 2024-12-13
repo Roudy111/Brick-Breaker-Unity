@@ -535,8 +535,9 @@ GameObject:
   m_Component:
   - component: {fileID: 321089257}
   - component: {fileID: 321089258}
+  - component: {fileID: 321089259}
   m_Layer: 0
-  m_Name: TerminalUI
+  m_Name: IntroUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -589,6 +590,26 @@ MonoBehaviour:
   responses:
   - '> OPERATOR: Thank god. We thought we lost you in the last neural dive.'
   - '> OPERATOR: Of course not. They wiped you clean. But somewhere inside, you remember.'
+--- !u!114 &321089259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 321089255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ada5a12f733164383aec25a77c8f03ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  systemDetailsText: {fileID: 1009648888}
+  textColor: {r: 0, g: 1, b: 0, a: 1}
+  fontSize: 24
+  typingSpeed: 0.025
+  textAlpha: 0.5
+  updateInterval: 5
+  autoUpdate: 1
+  maxSequences: 10
 --- !u!1 &340104877
 GameObject:
   m_ObjectHideFlags: 0
