@@ -347,7 +347,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &192080011
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1032,6 +1032,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ButtonYES
       objectReference: {fileID: 0}
+    - target: {fileID: 2221400537817047744, guid: 44e85e6d6d18743fa8a61223a7dc75b2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2410749174779802589, guid: 44e85e6d6d18743fa8a61223a7dc75b2, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1111,6 +1115,14 @@ PrefabInstance:
     - target: {fileID: 2410749174779802589, guid: 44e85e6d6d18743fa8a61223a7dc75b2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5351194274663943423, guid: 44e85e6d6d18743fa8a61223a7dc75b2, type: 3}
+      propertyPath: m_text
+      value: ' > RESPOND:YES'
+      objectReference: {fileID: 0}
+    - target: {fileID: 5351194274663943423, guid: 44e85e6d6d18743fa8a61223a7dc75b2, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1508,7 +1520,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2521271385527021621, guid: 8d92da5ed85db42f9b014dee7c89722b, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 2521271385527021621, guid: 8d92da5ed85db42f9b014dee7c89722b, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1532,6 +1544,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3642637174459275439, guid: 8d92da5ed85db42f9b014dee7c89722b, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7096399584857533275, guid: 8d92da5ed85db42f9b014dee7c89722b, type: 3}
+      propertyPath: m_text
+      value: ' > RESPOND:NO'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7096399584857533275, guid: 8d92da5ed85db42f9b014dee7c89722b, type: 3}
+      propertyPath: m_HorizontalAlignment
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
