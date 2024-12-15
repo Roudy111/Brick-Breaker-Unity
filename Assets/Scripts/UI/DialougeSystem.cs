@@ -1,73 +1,44 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 
 public class DialogueSystem : MonoBehaviour
 {
-    [System.Serializable]
-    private class DialogueChoice
-    {
-        public string input;
-        public string response;
-        public Color responseColor = Color.green;
-    }
-
     [System.Serializable]
     private class DialogueMessage
     {
         public string text;
         public Color color = Color.green;
-        public bool isVisible = true;
-    }
-
-    [System.Serializable]
-    private class BootMessage
-    {
-        public string text;
-        public bool isWarning;
-        public Color textColor = Color.green;
-        public Color TextColor => isWarning ? Color.red : textColor;
+        public bool isVisible = false;
+        public int visibleCharacters = 0;
     }
 
     [Header("UI References")]
     [SerializeField] private TextMeshProUGUI bootMessagesText;
     [SerializeField] private TextMeshProUGUI operatorText;
-    [SerializeField] private Transform choiceContainer;
-    [SerializeField] private Button choiceButtonPrefab;
+    [SerializeField] private Button yesButton;
+    [SerializeField] private Button noButton;
 
     [Header("Settings")]
     [SerializeField] private float typingSpeed = 0.05f;
     [SerializeField] private Color defaultTextColor = Color.green;
+    [SerializeField] private Color warningColor = Color.red;
 
-    [Header("Boot Sequence")]
-    [SerializeField] private BootMessage[] bootSequence = new BootMessage[]
+    [Header("Dialogue Content")]
+    [SerializeField] private DialogueMessage[] bootMessages = new DialogueMessage[]
     {
-        new BootMessage { text = "> SYSTEM BOOT...", isWarning = false },
-        new BootMessage { text = "> NEURAL LINK ESTABLISHED", isWarning = false },
-        new BootMessage { text = "> SCANNING FOR NEURAL IMPRINTS...", isWarning = false },
-        new BootMessage { text = "> WARNING: FRAGMENTED MEMORY DETECTED", isWarning = true }
+        new DialogueMessage { text = "> SYSTEM BOOT..." },
+        new DialogueMessage { text = "> NEURAL LINK ESTABLISHED" },
+        new DialogueMessage { text = "> SCANNING FOR NEURAL IMPRINTS..." },
+        new DialogueMessage { text = "> WARNING: FRAGMENTED MEMORY DETECTED" }
     };
 
-    [Header("First Contact")]
-    [SerializeField] private string firstContactMessage = "> OPERATOR: Are you still there? We've been waiting...";
-    [SerializeField] private DialogueChoice[] choices = new DialogueChoice[]
-    {
-        new DialogueChoice 
-        { 
-            input = "RESPOND: Yes",
-            response = "> OPERATOR: Thank god. We thought we lost you in the last neural dive."
-        },
-        new DialogueChoice 
-        { 
-            input = "RESPOND: No",
-            response = "> OPERATOR: Of course not. They wiped you clean. But somewhere inside, you remember."
-        }
-    };
+    [Header("Dialogue Choices")]
+    [SerializeField] private string operatorMessage = "> OPERATOR: Are you still there? We've been waiting...";
+    [SerializeField] private string yesResponse = "> OPERATOR: Thank god. We thought we lost you in the last neural dive.";
+    [SerializeField] private string noResponse = "> OPERATOR: Of course not. They wiped you clean. But somewhere inside, you remember.";
 
-    private List<DialogueMessage> bootMessageHistory = new List<DialogueMessage>();
     private bool isTyping = false;
 
     private void Start()
@@ -78,127 +49,78 @@ public class DialogueSystem : MonoBehaviour
 
     private void SetupUI()
     {
-        if (ValidateComponents())
-        {
-            bootMessagesText.color = defaultTextColor;
-            bootMessagesText.text = "";
-            operatorText.color = defaultTextColor;
-            operatorText.text = "";
-        }
-    }
+        bootMessagesText.color = defaultTextColor;
+        bootMessagesText.text = "";
+        operatorText.color = defaultTextColor;
+        operatorText.text = "";
 
-    private bool ValidateComponents()
-    {
-        if (bootMessagesText == null || operatorText == null || 
-            choiceContainer == null || choiceButtonPrefab == null)
-        {
-            Debug.LogError("Missing required components!");
-            return false;
-        }
-        return true;
+        // Configure button listeners
+        yesButton.onClick.AddListener(() => HandleChoice(yesResponse));
+        noButton.onClick.AddListener(() => HandleChoice(noResponse));
+        
+        // Hide buttons initially
+        yesButton.gameObject.SetActive(false);
+        noButton.gameObject.SetActive(false);
     }
 
     private IEnumerator PlaySequence()
     {
-        // Boot sequence
-        foreach (var message in bootSequence)
+        // Play boot sequence
+        for (int i = 0; i < bootMessages.Length; i++)
         {
-            yield return StartCoroutine(TypeBootMessage(new DialogueMessage 
-            { 
-                text = message.text,
-                color = message.TextColor
-            }));
+            if (bootMessages[i].text.Contains("WARNING"))
+            {
+                bootMessages[i].color = warningColor;
+            }
+            yield return StartCoroutine(TypeMessage(bootMessages[i], true));
             yield return new WaitForSeconds(0.5f);
         }
 
-        // Show operator message and choices
+        // Show operator message and enable choices
         yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(TypeOperatorMessage(firstContactMessage));
-        ShowChoices();
-    }
-
-    private void ShowChoices()
-    {
-        foreach (var choice in choices)
-        {
-            CreateChoiceButton(choice);
-        }
-    }
-
-    private void CreateChoiceButton(DialogueChoice choice)
-    {
-        Button button = Instantiate(choiceButtonPrefab, choiceContainer);
-        TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
+        yield return StartCoroutine(TypeOperatorMessage(operatorMessage));
         
-        // Set text and style
-        buttonText.text = $"> {choice.input}";
-        buttonText.color = defaultTextColor;
-        
-        // Add click handler
-        button.onClick.AddListener(() => HandleChoice(choice));
+        yesButton.gameObject.SetActive(true);
+        noButton.gameObject.SetActive(true);
     }
 
-    private void HandleChoice(DialogueChoice choice)
-    {
-        StartCoroutine(ProcessChoice(choice));
-    }
-
-    private IEnumerator ProcessChoice(DialogueChoice choice)
-    {
-        // Clear choices
-        foreach (Transform child in choiceContainer)
-        {
-            Destroy(child.gameObject);
-        }
-
-        // Show response
-        yield return StartCoroutine(TypeOperatorMessage(choice.response));
-        
-        yield return new WaitForSeconds(2f);
-        HandleSequenceComplete();
-    }
-
-    private void HandleSequenceComplete()
-    {
-        // Add any completion logic here
-        Debug.Log("Dialogue sequence complete");
-    }
-
-    private void UpdateBootDisplay()
-    {
-        string fullText = "";
-        foreach (var msg in bootMessageHistory)
-        {
-            if (msg.isVisible)
-            {
-                fullText += $"<color=#{ColorUtility.ToHtmlStringRGB(msg.color)}>{msg.text}</color>\n";
-            }
-        }
-        bootMessagesText.text = fullText.TrimEnd('\n') + "<color=#00ff00>_</color>";
-    }
-
-    private IEnumerator TypeBootMessage(DialogueMessage message)
+    private IEnumerator TypeMessage(DialogueMessage message, bool isBootMessage)
     {
         isTyping = true;
-        string originalText = message.text;
-        message.text = "";
-        bootMessageHistory.Add(message);
-
-        foreach (char c in originalText)
+        message.isVisible = true;
+        message.visibleCharacters = 0;
+        
+        while (message.visibleCharacters < message.text.Length)
         {
-            message.text += c;
-            UpdateBootDisplay();
+            message.visibleCharacters++;
+            UpdateDisplay(isBootMessage);
             yield return new WaitForSeconds(typingSpeed);
         }
 
         isTyping = false;
     }
 
+    private void UpdateDisplay(bool isBootMessage)
+    {
+        if (isBootMessage)
+        {
+            string fullText = "";
+            for (int i = 0; i < bootMessages.Length; i++)
+            {
+                if (bootMessages[i].isVisible)
+                {
+                    string visibleText = bootMessages[i].text.Substring(0, bootMessages[i].visibleCharacters);
+                    fullText += $"<color=#{ColorUtility.ToHtmlStringRGB(bootMessages[i].color)}>{visibleText}</color>\n";
+                }
+            }
+            bootMessagesText.text = fullText.TrimEnd('\n') + "<color=#00ff00>_</color>";
+        }
+    }
+
     private IEnumerator TypeOperatorMessage(string message)
     {
-        isTyping = true;
-        string currentText = "";
         operatorText.text = "";
+        string currentText = "";
 
         foreach (char c in message)
         {
@@ -206,7 +128,28 @@ public class DialogueSystem : MonoBehaviour
             operatorText.text = currentText + "<color=#00ff00>_</color>";
             yield return new WaitForSeconds(typingSpeed);
         }
+    }
 
-        isTyping = false;
+    private void HandleChoice(string response)
+    {
+        yesButton.gameObject.SetActive(false);
+        noButton.gameObject.SetActive(false);
+        StartCoroutine(ShowResponse(response));
+    }
+
+    private IEnumerator ShowResponse(string response)
+    {
+        operatorText.text = "";
+        string currentText = "";
+
+        foreach (char c in response)
+        {
+            currentText += c;
+            operatorText.text = currentText + "<color=#00ff00>_</color>";
+            yield return new WaitForSeconds(typingSpeed);
+        }
+
+        yield return new WaitForSeconds(2f);
+        // Handle sequence completion here
     }
 }
